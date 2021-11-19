@@ -20,7 +20,6 @@ The data set consists of 25 columns partitioned into :
 #### Column Description
 
 
-|                    |                                               |
 | Column Name        | Description                                   |
 |--------------------|-----------------------------------------------|
 | ID                 | Row observation number                        |

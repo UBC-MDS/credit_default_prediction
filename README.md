@@ -97,16 +97,22 @@ The columns are further defined below:
 ## Report
 
 
-The final report can be found \<no link>
+The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src/credit_default_eda.ipynb)
 
 ## Usage
 
 
-## **Dependencies**
+## Dependencies
 
 
-## **License**
+## License
+This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.
+This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given.
 
 
-## **References**
+## References
+   Lichman, M. (2013). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+   
+   The original dataset can be found here (https://archive.ics.uci.edu/ml/machine-learning-databases/00350/)[here] at the UCI Machine Learning Repository.
+
 

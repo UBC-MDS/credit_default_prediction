@@ -4,16 +4,13 @@
 
 ## Introduction
 
-A customer could defaults a credit payment for many reasons: It could be out of negligence, loss of job, health issues, need to use the extra cash for other bills or deliberately choosing to refuse to pay the credit even though they are financially capable. Credit companies are faced with the burden of "trusting" a customer would not default payment. Extensive data profiling the customer's finance is collected to decide if a customer would default or make payment the next month.
-This project aims to build a classification model to predict potential credit default accounts of Taiwan's credit card clients'.
+This project aims to answer the question: "Will a customer default credit payment?" by building a classification model to predict potential credit default accounts of Taiwan's credit card clients'.
 
-\<Tiffany Describes the outcome>
+A customer can default a credit payment for many reasons: It can be out of negligence, loss of job, health issues, need to use the extra cash for other bills or deliberately choosing to refuse to pay the credit even though they are financially capable. Credit companies are faced with the burden of "trusting" a customer would not default payment. Extensive data profiling the customer's finance is collected to decide if a customer would default or make payment the next month.
 
 The data set is a Taiwan credit card data from April to September, 2005 sourced from the UCI machine learning repository and can be found [here](https://archive-beta.ics.uci.edu/ml/datasets/default|of|credit|card|clients).
 
-The data set consists of 25 columns partitioned into :
-
-- One ID column
+The data set consists of 24 columns partitioned into :
 
 - Twenty three (23) explanatory columns
 
@@ -22,8 +19,6 @@ The data set consists of 25 columns partitioned into :
 #### Column Description
 
 The columns are further defined below:
-
-- ID: Row Identifier.
 
 - LIMIT_BAL: Amount of the given credit (NT dollar): it includes both the individual costumer credit and his/her family (supplementary)
 
@@ -60,7 +55,6 @@ The columns are further defined below:
     - 8 represents payment delay for eight months
 
     - 9 represents payment delay for nine months and above. <br>
-    **Note** : PAY_1 colum does not exist.
 
 - BILL_AMT1 - BILL_AMT6: The amount of bill statement in dollars from April to September , 2005.
 
@@ -68,16 +62,13 @@ The columns are further defined below:
 
 - default.payment.next.month: The default payment in next month. 0 represents yes and 1 represents no.
 
-We intend to use various machine learning classification algorithm such as KNN, Logisitic Regression and SVC (to mention a few) to select the best performing algorithm that predicts if a customer would default payment or not. Our data set would be splitted in the percentage ratio 80:20 . Where 80 percent will represent out train data and 20 percent will represent our test data. Due to the generalized nature of our case study we are prepared to encounter imbalanced class counts. We believe a large number of customer's would not default the payment next month and we will adequately put this into consideration when building our predictive model. The class counts will be presented as a table and used to inform whether we think there is a class imbalance problem. We don't plan to use the accuracy as our evalutaion metric
-if we have unbalanced data. We will perform further exploratory data analysis to find missing values in our data set, understand the relationships that may exist among the features to see what we can learn about the data set.
+We intend to use various machine learning classification algorithm such as KNN, Logisitic Regression and SVC (to mention a few) to select the best performing algorithm that predicts if a customer would default payment or not. Our data set would be splitted in the percentage ratio 80:20 . Where 80 percent will represent our train data and 20 percent will represent our test data. Due to the generalized nature of our case study we are prepared to encounter imbalanced class counts. We believe a large number of customer's would not default the payment next month and we will adequately put this into consideration when building our predictive model. The class counts will be presented as a table and used to inform whether we think there is a class imbalance problem. We will perform further exploratory data analysis to find missing values in our data set, understand the relationships that may exist among the features to see what we can learn about the data set.
 
-We will carryout column transformations on features where neccessary, given that we have categorical features such as Marriage and Sex. When using KNN, we intend to perform normalization of dataset because KNN works on distance metrics. Since our data is large we will use a small number of folds 5 - 10 for every model. We would select our best model by comparing the outcomes of our predictors using alternative scoring metrics such as f1-score or recall. The predictor distributions across classes will be plotted as facetted (by predictor) ridge plots where the densities are coloured by class.
+We will carryout column transformations on features where neccessary, given that we have categorical features such as Marriage and Sex. When using KNN, we intend to perform normalization of dataset because KNN works on distance metrics. Since our data is large we will use a small number of folds 5 - 10 for every model. Apart from looking at the accuracy, We would select our best model by comparing the outcomes of our predictors using alternative scoring/evaluation metrics such as f1-score or recall. The predictor distributions across classes will be plotted as facetted (by predictor) ridge plots where the densities are coloured by class.
 
-After selecting our final model, we will re-fit the model on the entire training data set, and then evaulate it’s performance on the test data set. At this point we will look at overall accuracy as well as misclassification errors (from the confusion matrix) to assess prediction performance. These values will be reported as a table in the final report.
+Finally, our final model will be selected. We will re-fit the training data set then evaluate the performance on the test data set on accuracy and alternative scoring/evaluation metrics such as f1-score or recall. These values will be reported as a table in the final report.
 
-Thus far we have performed some exploratory data analysis, and the report for that can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src).
 ## Report
-
 
 The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src/credit_default_eda.ipynb)
 

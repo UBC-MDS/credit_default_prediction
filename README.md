@@ -1,13 +1,15 @@
 # Credit Default Prediction
 
-## About
+- **Authors** : Arushi Ahuja, Karanpreet Kaur, Lianna Hovhannisyan, Taiwo Owoseni
+
+## Introduction
 
 
-This project aims to build a classification model using \<unknown models> algorithm to predict potential credit default accounts of Taiwan's credit card clients'.
+This project aims to build a classification model using various machine learning classification algorithms to predict potential credit default accounts of Taiwan's credit card clients'.
 
 \<Tiffany Describes the outcome>
 
-The data set is a Taiwan credit card data from April to September, 2005 sourced from the UCI machine learning repository and can be found [here](https://archive-beta.ics.uci.edu/ml/datasets/default|of|credit|card|clients). Although its original creators are unknown, previous studies strongly suggest it is a private data.
+The data set is a Taiwan credit card data from April to September, 2005 sourced from the UCI machine learning repository and can be found [here](https://archive-beta.ics.uci.edu/ml/datasets/default|of|credit|card|clients).
 
 The data set consists of 25 columns partitioned into :
 
@@ -62,7 +64,7 @@ The columns are further defined below:
 
 - AGE: The customer's age in years.
 
-- PAY_0 - PAY_6: The repayment status. It is the customer's history of past payment from April to September, 2005. The measurement scale for the repayment status are:
+- PAY_0 - PAY_6 : The repayment status. It is the customer's history of past payment from April to September, 2005. The measurement scale for the repayment status are:
 
     - -2 represents balance paid in full and no transactions in this period (we may refer to this credit card account as having been 'inactive' this period).
 
@@ -87,6 +89,7 @@ The columns are further defined below:
     - 8 represents payment delay for eight months
 
     - 9 represents payment delay for nine months and above.
+    **Note** : PAY_1 colum does not exist.
 
 - BILL_AMT1 - BILL_AMT6: The amount of bill statement in dollars from April to September , 2005.
 

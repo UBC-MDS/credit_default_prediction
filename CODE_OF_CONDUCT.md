@@ -27,7 +27,7 @@ By adopting this Code of Conduct, project maintainers commit themselves to fairl
 
 This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community.
 
-A working group of community members is committed to promptly addressing any reported issues. The working group is made up of this project's contributors and users. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the working group by e-mail (credit-prediction@googlegroups.com). Messages sent to this e-mail address will not be publicly visible but only to the working group members. The working group currently includes
+A working group of community members is committed to promptly addressing any reported issues. The working group is made up of this project's contributors and users. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the working group by e-mail (liannah1@student.ubc.ca). Messages sent to this e-mail address will not be publicly visible but only to the working group members. The working group currently includes:
 
 Arushi Ahuja  
 Karanpreet Kaur  

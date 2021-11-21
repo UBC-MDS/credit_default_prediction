@@ -4,9 +4,9 @@
 
 ## Introduction
 
-This project aims to answer the question: "Will a customer default credit payment?" by building a classification model to predict potential credit default accounts of Taiwan's credit card clients'.
+This project aims to answer the question: "Will a customer default credit payment next month?" by building a classification model to predict potential credit default accounts of Taiwan's credit card clients.
 
-A customer can default a credit payment for many reasons: It can be out of negligence, loss of job, health issues, need to use the extra cash for other bills or deliberately choosing to refuse to pay the credit even though they are financially capable. Credit companies are faced with the burden of "trusting" a customer would not default payment. Extensive data profiling the customer's finance is collected to decide if a customer would default or make payment the next month.
+A customer can default a credit payment for many reasons: it can be out of negligence, loss of job, health issues, need to use the extra cash for other bills or deliberately choosing to refuse to pay the credit even though they are financially capable. Credit companies are faced with the burden of "trusting" a customer would not default payment. Extensive data profiling the customer's finance is collected to decide if a customer would default or make payment the next month.
 
 The data set is a Taiwan credit card data from April to September, 2005 sourced from the UCI machine learning repository and can be found [here](https://archive-beta.ics.uci.edu/ml/datasets/default|of|credit|card|clients).
 

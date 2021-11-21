@@ -66,12 +66,11 @@ We intend to use various machine learning classification algorithm such as KNN, 
 
 We will carryout column transformations on features where neccessary, given that we have categorical features such as Marriage and Sex. When using KNN, we intend to perform normalization of dataset because KNN works on distance metrics. Since our data is large we will use a small number of folds 5 - 10 for every model. Apart from judging from the model's accuracy, we would select our best model by comparing the outcomes of our predictors using alternative scoring/evaluation metrics such as f1-score or recall. The predictor distributions across classes will be plotted as facetted (by predictor) ridge plots where the densities are coloured by class.
 
-Finally, we will re-fit the training data set on our final model then evaluate the performance on the test data set on accuracy and alternative scoring/evaluation metrics such as f1-score or recall. These values will be reported as a table in the EDA report can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src/credit_default_eda.ipynb).
+Finally, we will re-fit the training data set on our final model then evaluate the performance on the test data set on accuracy and alternative scoring/evaluation metrics such as f1-score or recall. 
 
 ## Report
 
-The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src)
-
+The EDA report for the data set can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src/credit_default_eda.ipynb).
 ## Usage
 To replicate the analysis, clone this GitHub repository, install the dependencies listed below, and run the following commands at the command line/terminal from the root directory of this project:
 

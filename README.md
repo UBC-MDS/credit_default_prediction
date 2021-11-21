@@ -75,9 +75,11 @@ The final report can be found [here](https://github.com/UBC-MDS/credit_default_p
 ## Usage
 To replicate the analysis, clone this GitHub repository, install the dependencies listed below, and run the following commands at the command line/terminal from the root directory of this project:
 
-`python src/download_data.py --out_type=xls --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls --out_file=data/raw/default_credit_card_clients.csv`
+```
+python src/download_data.py --out_type=xls --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls --out_file=data/raw/default_credit_card_clients.csv
 
-`jupyter lab src/credit_default_eda.ipynb`
+jupyter lab src/credit_default_eda.ipynb
+```
 
 ## Dependencies
 - Python 3.9 and Python packages:

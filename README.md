@@ -88,6 +88,10 @@ To replicate the analysis, clone this GitHub repository, install the dependencie
   - xlrd==2.0.1
   - altair_saver==0.5.0
   - altair==4.1.0
+  - altair-data-server=0.4.1
+  - portpicker=1.5.0
+  - jupyterlab==3.2.4
+
 
 ## License
 This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.

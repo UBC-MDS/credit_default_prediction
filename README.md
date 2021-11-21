@@ -4,9 +4,9 @@
 
 ## Introduction
 
-This project aims to answer the question: "Will a customer default credit payment?" by building a classification model to predict potential credit default accounts of Taiwan's credit card clients'.
+This project aims to answer the question: "Will a customer default credit payment next month?" by building a classification model to predict potential credit default accounts of Taiwan's credit card clients.
 
-A customer can default a credit payment for many reasons: It can be out of negligence, loss of job, health issues, need to use the extra cash for other bills or deliberately choosing to refuse to pay the credit even though they are financially capable. Credit companies are faced with the burden of "trusting" a customer would not default payment. Extensive data profiling the customer's finance is collected to decide if a customer would default or make payment the next month.
+A customer can default a credit payment for many reasons: it can be out of negligence, loss of job, health issues, need to use the extra cash for other bills or deliberately choosing to refuse to pay the credit even though they are financially capable. Credit companies are faced with the burden of "trusting" a customer would not default payment. Extensive data profiling the customer's finance is collected to decide if a customer would default or make payment the next month.
 
 The data set is a Taiwan credit card data from April to September, 2005 sourced from the UCI machine learning repository and can be found [here](https://archive-beta.ics.uci.edu/ml/datasets/default|of|credit|card|clients).
 
@@ -66,7 +66,7 @@ We intend to use various machine learning classification algorithm such as KNN, 
 
 We will carryout column transformations on features where neccessary, given that we have categorical features such as Marriage and Sex. When using KNN, we intend to perform normalization of dataset because KNN works on distance metrics. Since our data is large we will use a small number of folds 5 - 10 for every model. Apart from judging from the model's accuracy, we would select our best model by comparing the outcomes of our predictors using alternative scoring/evaluation metrics such as f1-score or recall. The predictor distributions across classes will be plotted as facetted (by predictor) ridge plots where the densities are coloured by class.
 
-Finally, we will re-fit the training data set on our final model then evaluate the performance on the test data set on accuracy and alternative scoring/evaluation metrics such as f1-score or recall. These values will be reported as a table in the EDA report can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src/credit_default_eda.ipynb).
+Finally, we will re-fit the training data set on our final model, evaluate the performance on the test data set on accuracy and alternative scoring/evaluation metrics such as f1-score or recall. These values will be shown as a table in the report, which can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/src/credit_default_eda.ipynb).
 
 ## Report
 

@@ -6,20 +6,20 @@ We are committed to making participation in this project a harassment-free exper
 
 Examples of behavior that contributes to creating a positive environment include:
 
--Using welcoming and inclusive language.  
--Being respectful of differing viewpoints and experiences.  
--Gracefully accepting constructive criticism.  
--Focusing on what is best for the community.  
--Showing empathy towards other community members.  
+- Using welcoming and inclusive language.  
+- Being respectful of differing viewpoints and experiences.  
+- Gracefully accepting constructive criticism.  
+- Focusing on what is best for the community.  
+- Showing empathy towards other community members.  
 
 Examples of unacceptable behavior by participants include:
 
--The use of sexualized language or imagery.  
--Personal attacks.  
--Trolling or insulting/derogatory comments.  
--Public or private harassment.  
--Publishing other's private information, such as physical or electronic addresses, without explicit permission. 
--Other unethical or unprofessional conduct.  
+- The use of sexualized language or imagery.  
+- Personal attacks.  
+- Trolling or insulting/derogatory comments.  
+- Public or private harassment.  
+- Publishing other's private information, such as physical or electronic addresses, without explicit permission. 
+- Other unethical or unprofessional conduct.  
 
 Project maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviors that they deem inappropriate, threatening, offensive, or harmful.
 

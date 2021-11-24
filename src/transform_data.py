@@ -66,9 +66,11 @@ def main(input_file, transformed_train_file, train_file, test_file, y_train_file
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 
     # save test and train data after splitting 
+    
     save_file(test_file, X_test)
-    save_file(y_test_file, y_test)
     save_file(train_file, X_train)
+
+    save_file(y_test_file, y_test)
     save_file(y_train_file, y_train)
 
 

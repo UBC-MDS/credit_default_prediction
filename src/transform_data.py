@@ -6,12 +6,16 @@
 """Cleans and transforms csv file and outputs cleaned data to file path as csv file.
 
 
-Usage: src/transform_data.py --input_file=<input_file> --out_file=<out_file> --test_file=<test_file>
+Usage: src/transform_data.py --input_file=<input_file> --transformed_train_file=<transformed_train_file>
+        --train_file=<train_file> --test_file=<test_file> --y_train_file=<y_train_file> --y_test_file=<y_test_file>  
 
 Options:
---input_file=<input_file>  Path (including filename) of the data to be transformed (script supports only csv)
---out_file=<out_file>      Path (including filename) of where to locally write the file
---test_file=<test_file>    Path (including filename) of where to locally write the test file
+--input_file=<input_file>                              Path (including filename) of the data to be transformed (script supports only csv)
+--transformed_train_file=<transformed_train_file>      Path (including filename) of where to locally write the transformed train data file
+--train_file=<train_file>                              Path (including filename) of where to locally write the train file
+--test_file=<test_file>                                Path (including filename) of where to locally write the test file
+--y_train_file=<y_train_file>                          Path (including filename) of where to locally write the y_train file
+--y_test_file=<y_test_file>                            Path (including filename) of where to locally write the y_test file
 """
 
 
@@ -26,28 +30,47 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 opt = docopt(__doc__)
 
-def main(input_file, output_file, test_file):
-
-    subprocess.call("src/download.py --out_type=xls --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls --out_file=data/raw/default_credit.csv", shell=True)
-
+def save_file(file_path, doc_name ):
+    """
+    Function to Save file 
+    """
     try:
-        abs_path = os.path.abspath(input_file)
+        doc_name.to_csv(file_path, index = False, encoding='utf-8')
+    except:
+        os.makedirs(os.path.dirname(file_path))
+        doc_name.to_csv(file_path, index = False, encoding='utf-8')
+    
+def read_data(file_path):
+    """
+    Function to Read a csv file
+    """
+    try:
+        abs_path = os.path.abspath(file_path)
     except FileNotFoundError:
         raise ("Absolute path to {input_file} not found in home directory")
     else:
         data = pd.read_csv(abs_path)
-        train_data, test_data = train_test_split(data, test_size=0.2, random_state=123)
+    return data
 
-    # save test data after splitting 
-    try:
-        test_data.to_csv(test_file, index = False, encoding='utf-8')
-    except:
-        os.makedirs(os.path.dirname(test_file))
-        test_data.to_csv(test_file, index = False, encoding='utf-8')
+def main(input_file, transformed_train_file, train_file, test_file, y_train_file, y_test_file ):
+    subprocess.run("src/download_data.py \
+                    --out_type=csv \
+                    --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls \
+                    --out_file=data/raw/default_credit_card_clients.csv",
+                    shell=True)
 
-    # transforming the train data
-    X_train = train_data.drop(columns=["default_payment_next_month"])
-    y_train = train_data["default_payment_next_month"]
+
+    data = read_data(input_file)
+    X = data.drop(columns="default_payment_next_month")
+    y = data["default_payment_next_month"]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+
+    # save test and train data after splitting 
+    save_file(test_file, X_test)
+    save_file(y_test_file, y_test)
+    save_file(train_file, X_train)
+    save_file(y_train_file, y_train)
+
 
     numeric_features = ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',
                         'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
@@ -76,22 +99,16 @@ def main(input_file, output_file, test_file):
      np.array(ordinal_features)]
     )
 
-    # append y to the newly transformed data
-
     transformed_data = pd.DataFrame(
     data = preprocessed_X_train, 
     columns = column_names
     )
-    transformed_data["default_payment_next_month"] = y_train.values
-
+   
     # save transformed data after splitting 
-
-    try:
-        transformed_data.to_csv(output_file, index = False, encoding='utf-8')
-    except:
-        os.makedirs(os.path.dirname(output_file))
-        transformed_data.to_csv(output_file, index = False, encoding='utf-8')
-
+    save_file(transformed_data, transformed_train_file)
 
 if __name__ == "__main__":
-    main(opt["--input_file"], opt["--test_file"], opt["--out_file"])
+    main(opt["--input_file"], opt["--transformed_train_file"], 
+        opt["--train_file"],  opt["--test_file"], 
+        opt["--y_train_file"],  opt["--y_test_file"]  
+)

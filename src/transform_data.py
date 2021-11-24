@@ -94,4 +94,4 @@ def main(input_file, output_file, test_file):
 
 
 if __name__ == "__main__":
-    main(opt["--out_type"], opt["--test_file"], opt["--out_file"])
+    main(opt["--input_file"], opt["--test_file"], opt["--out_file"])

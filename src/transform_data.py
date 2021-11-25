@@ -6,18 +6,12 @@
 """Cleans and transforms csv file and outputs cleaned data to file path as csv file.
 
 
-Usage: src/transform_data.py --input_file=<input_file> --transformed_train_file=<transformed_train_file>
-        --train_file=<train_file> --test_file=<test_file> --y_train_file=<y_train_file> --y_test_file=<y_test_file>  
+Usage: src/transform_data.py --input_path=<input_path> --out_path =<out_path>
 
 Options:
---input_file=<input_file>                              Path (including filename) of the data to be transformed (script supports only csv)
---transformed_train_file=<transformed_train_file>      Path (including filename) of where to locally write the transformed train data file
---train_file=<train_file>                              Path (including filename) of where to locally write the train file
---test_file=<test_file>                                Path (including filename) of where to locally write the test file
---y_train_file=<y_train_file>                          Path (including filename) of where to locally write the y_train file
---y_test_file=<y_test_file>                            Path (including filename) of where to locally write the y_test file
+--input_path=<input_path>   Path (including filename) of the data to be transformed (script supports only csv)
+--out_path=<out_path>    Path (including filename) of where to locally write the transformed train data file
 """
-
 
 import numpy as np
 import os
@@ -30,10 +24,11 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 opt = docopt(__doc__)
 
-def save_file(file_path, doc_name ):
+def save_file(path_dir, file_name, doc_name ):
     """
-    Function to Save file 
+    Function to Save file to preprocessed folder
     """
+    file_path = os.path.join(path_dir, file_name)
     try:
         doc_name.to_csv(file_path, index = False, encoding='utf-8')
     except:
@@ -52,27 +47,12 @@ def read_data(file_path):
         data = pd.read_csv(abs_path)
     return data
 
-def main(input_file, transformed_train_file, train_file, test_file, y_train_file, y_test_file ):
-    subprocess.run("src/download_data.py \
-                    --out_type=csv \
-                    --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls \
-                    --out_file=data/raw/default_credit_card_clients.csv",
-                    shell=True)
+def main(input_path, out_path ):
 
-
-    data = read_data(input_file)
-    X = data.drop(columns="default_payment_next_month")
-    y = data["default_payment_next_month"]
+    data = read_data(input_path)
+    X = data.drop(columns="default payment next month")
+    y = data["default payment next month"]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
-
-    # save test and train data after splitting 
-    
-    save_file(test_file, X_test)
-    save_file(train_file, X_train)
-
-    save_file(y_test_file, y_test)
-    save_file(y_train_file, y_train)
-
 
     numeric_features = ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',
                         'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
@@ -92,25 +72,31 @@ def main(input_file, transformed_train_file, train_file, test_file, y_train_file
     )
 
     preprocessed_X_train = preprocessor.fit_transform(X_train)
+    preprocessed_X_test = preprocessor.transform(X_test)
 
     # get the column names of the preprocessed data
 
     column_names = np.concatenate(
-    [np.array(numeric_features),
-     preprocessor.named_transformers_['onehotencoder'].get_feature_names_out(),
-     np.array(ordinal_features)]
+                    [np.array(numeric_features),
+                    preprocessor.named_transformers_['onehotencoder'].get_feature_names_out(),
+                    np.array(ordinal_features)]
+    
     )
+    trans_train_data = pd.DataFrame(
+                         data = preprocessed_X_train, 
+                         columns = column_names
+    )
+    trans_test_data = pd.DataFrame(
+                         data = preprocessed_X_test, 
+                         columns = column_names
+     )
+     
+    trans_train_data["default payment next month"] = y_train.values
+    trans_test_data["default payment next month"]  = y_test.values
 
-    transformed_data = pd.DataFrame(
-    data = preprocessed_X_train, 
-    columns = column_names
-    )
-   
     # save transformed data after splitting 
-    save_file(transformed_data, transformed_train_file)
+    save_file(out_path, "transformed_train.csv", trans_train_data)
+    save_file(out_path,"transformed_test.csv",  trans_test_data)
 
 if __name__ == "__main__":
-    main(opt["--input_file"], opt["--transformed_train_file"], 
-        opt["--train_file"],  opt["--test_file"], 
-        opt["--y_train_file"],  opt["--y_test_file"]  
-)
+    main(opt["--input_path"],  opt["--out_path"])

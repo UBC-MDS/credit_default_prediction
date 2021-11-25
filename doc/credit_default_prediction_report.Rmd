@@ -26,7 +26,7 @@ This is for summary of the results
 
 # Introduction
 
-This is for introduction to the problem [@R], [@misc_default_of_credit_card_clients_350]
+This is for introduction to the problem [@R], [@misc_default_of_credit_card_clients_350], [@docopt]
 
 # Methods
 

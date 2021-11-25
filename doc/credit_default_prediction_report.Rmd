@@ -1,0 +1,43 @@
+---
+title: "Predicting default payment from past months payment history and client characteristics"
+author: "Lianna Hovhannisyan, Arushi Ahuja, Taiwo Owoseni, Karanpreet Kaur"
+date: "25/11/2021"
+bibliography: default_prediction_refs.bib
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+
+```{r load model results}
+# model <- read.csv("../results/...")
+```
+
+# Summary
+
+This is for summary of the results
+
+# Introduction
+
+This is for introduction to the problem [@R], [@misc_default_of_credit_card_clients_350]
+
+# Methods
+
+## Data 
+
+General intro from where is data
+
+## Analysis
+
+What analysis we chose to perform 
+
+## Results & Discussion
+
+# References

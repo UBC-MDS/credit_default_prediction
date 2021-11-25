@@ -3,14 +3,14 @@
 # Author: Taiwo Owoseni
 # date: 2021-11-23
 
-"""Cleans and transforms csv file and outputs cleaned data to file path as csv file.
-
+"""Transforms csv file and outputs transformed data to file path as csv file.
 
 Usage: src/transform_data.py --input_path=<input_path> --out_path =<out_path>
 
+
 Options:
---input_path=<input_path>   Path (including filename) of the data to be transformed (script supports only csv)
---out_path=<out_path>    Path (including filename) of where to locally write the transformed train data file
+--input_path=<input_path>   Path (directory) to raw data (script supports only csv)
+--out_path=<out_path>       Path (directory) to save transformed train and test data
 """
 
 import numpy as np
@@ -24,20 +24,55 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 opt = docopt(__doc__)
 
-def save_file(path_dir, file_name, doc_name ):
+def save_file(path_dir, file_name, obj_name ):
     """
-    Function to Save file to preprocessed folder
+    Saves file.
+
+    This function creates a new file by
+    saving it to the specified path.
+
+    Parameters
+    ----------
+    path_dir : str
+        The path to save the file.
+    file_name: str
+        The file name of the document.
+    obj_name: pd.DataFrame
+        The object to be saved.
+        
+    Returns
+    -------
+    csv
+
+    Examples
+    --------
+    save_file('data/split/', 'train_data',  train_df)
+    
     """
     file_path = os.path.join(path_dir, file_name)
     try:
-        doc_name.to_csv(file_path, index = False, encoding='utf-8')
+        obj_name.to_csv(file_path, index = False, encoding='utf-8')
     except:
         os.makedirs(os.path.dirname(file_path))
-        doc_name.to_csv(file_path, index = False, encoding='utf-8')
+        obj_name.to_csv(file_path, index = False, encoding='utf-8')
     
 def read_data(file_path):
     """
-    Function to Read a csv file
+    Reads a csv file from path.
+
+    Parameters
+    ----------
+    file_path : str
+        The path of the file.
+   
+    Returns
+    -------
+    data : pd.DataFrame
+        A csv file
+
+    Examples
+    --------
+    save_file('data/split/train.csv')
     """
     try:
         abs_path = os.path.abspath(file_path)
@@ -46,7 +81,7 @@ def read_data(file_path):
     else:
         data = pd.read_csv(abs_path)
     return data
-
+    
 def main(input_path, out_path ):
 
     data = read_data(input_path)

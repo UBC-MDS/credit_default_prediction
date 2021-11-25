@@ -4,13 +4,13 @@
 # date: 2021-11-25
 
 """
-Splits raw data into train and test data set and save to file path as csv file.
+Cleans and splits raw data into train and test data set and save to file path as csv file.
 
-Usage: src/split_data.py --input_path=<input_path> --out_path =<out_path>
+Usage: src/clean_split_data.py --input_path=<input_path> --out_dir=<out_dir>
 
 Options:
---input_path=<input_path>   Path (directory) to raw data (script supports only csv)
---out_path=<out_path>       Path (directory) to save train and test data
+--input_path=<input_path>   Path (file path) to raw data (script supports only csv)
+--out_dir=<out_dir>       Path (directory) to save transformed train and test data
 """
 
 import os
@@ -20,7 +20,7 @@ from sklearn.model_selection import train_test_split
 
 opt = docopt(__doc__)
 
-def save_file(path_dir, file_name, obj_name ):
+def save_file(path_dir, file_name, processed_data): 
     """
     Saves file.
 
@@ -33,24 +33,20 @@ def save_file(path_dir, file_name, obj_name ):
         The path to save the file.
     file_name: str
         The file name of the document.
-    obj_name: pd.DataFrame
+    processed_data: pd.DataFrame
         The object to be saved.
-        
-    Returns
-    -------
-    csv
 
     Examples
     --------
-    save_file('data/split/', 'train_data',  train_df)
-    
+    save_file('data/split', 'train_data',  train_df)
     """
+    
     file_path = os.path.join(path_dir, file_name)
     try:
-        obj_name.to_csv(file_path, index = False, encoding='utf-8')
+        processed_data.to_csv(file_path, index = False, encoding='utf-8')
     except:
         os.makedirs(os.path.dirname(file_path))
-        obj_name.to_csv(file_path, index = False, encoding='utf-8')
+        processed_data.to_csv(file_path, index = False, encoding='utf-8')
     
 def read_data(file_path):
     """
@@ -68,7 +64,7 @@ def read_data(file_path):
 
     Examples
     --------
-    save_file('data/split/train.csv')
+    read_data('data/split/train.csv')
     """
     try:
         abs_path = os.path.abspath(file_path)
@@ -78,13 +74,15 @@ def read_data(file_path):
         data = pd.read_csv(abs_path)
     return data
 
-def main(input_path, out_path):
+def main(input_path, out_dir):
 
     data = read_data(input_path)
+    data = data.rename(columns={'default payment next month':'DEFAULT_PAYMENT_NEXT_MONTH'})
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=123)
 
-    save_file(out_path, "train.csv", train_data)
-    save_file(out_path,"test.csv", test_data)
+    save_file(out_dir, "cleaned_train.csv", train_data)
+    save_file(out_dir, "cleaned_test.csv", test_data)
+    save_file(out_dir, "cleaned_data.csv", data)
 
 if __name__ == "__main__":
-    main(opt["--input_path"],  opt["--out_path"])
+    main(opt["--input_path"],  opt["--out_dir"])

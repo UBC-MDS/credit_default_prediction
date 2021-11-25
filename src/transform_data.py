@@ -3,28 +3,26 @@
 # Author: Taiwo Owoseni
 # date: 2021-11-23
 
-"""Transforms csv file and outputs transformed data to file path as csv file.
+"""Transforms csv file and output transformed data to directory as csv file.
 
-Usage: src/transform_data.py --input_path=<input_path> --out_path =<out_path>
-
+Usage: src/transform_data.py --input_path=<input_path> --out_dir =<out_dir>
 
 Options:
---input_path=<input_path>   Path (directory) to raw data (script supports only csv)
---out_path=<out_path>       Path (directory) to save transformed train and test data
+--input_path=<input_path>   Path (filepath) to cleaned data (script supports only csv)
+--out_dir=<out_dir>       Path (directory) to save transformed train and test data
 """
 
 import numpy as np
 import os
 import pandas as pd
-import subprocess
 from docopt import docopt
-from sklearn.compose import  make_column_transformer
+from sklearn.compose import make_column_transformer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder,StandardScaler
 
 opt = docopt(__doc__)
 
-def save_file(path_dir, file_name, obj_name ):
+def save_file(path_dir, file_name,  processed_data ):
     """
     Saves file.
 
@@ -37,24 +35,20 @@ def save_file(path_dir, file_name, obj_name ):
         The path to save the file.
     file_name: str
         The file name of the document.
-    obj_name: pd.DataFrame
+    processed_data: pd.DataFrame
         The object to be saved.
-        
-    Returns
-    -------
-    csv
 
     Examples
     --------
-    save_file('data/split/', 'train_data',  train_df)
+    save_file('data/split', 'train_data',  train_df)
     
     """
     file_path = os.path.join(path_dir, file_name)
     try:
-        obj_name.to_csv(file_path, index = False, encoding='utf-8')
+        processed_data.to_csv(file_path, index = False, encoding='utf-8')
     except:
         os.makedirs(os.path.dirname(file_path))
-        obj_name.to_csv(file_path, index = False, encoding='utf-8')
+        processed_data.to_csv(file_path, index = False, encoding='utf-8')
     
 def read_data(file_path):
     """
@@ -72,7 +66,7 @@ def read_data(file_path):
 
     Examples
     --------
-    save_file('data/split/train.csv')
+    read_file('data/split/train.csv')
     """
     try:
         abs_path = os.path.abspath(file_path)
@@ -81,12 +75,13 @@ def read_data(file_path):
     else:
         data = pd.read_csv(abs_path)
     return data
-    
-def main(input_path, out_path ):
+
+def main(input_path, out_dir):
 
     data = read_data(input_path)
-    X = data.drop(columns="default payment next month")
-    y = data["default payment next month"]
+    X = data.drop(columns="DEFAULT_PAYMENT_NEXT_MONTH")
+    y = data["DEFAULT_PAYMENT_NEXT_MONTH"]
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 
     numeric_features = ['LIMIT_BAL', 'AGE', 'BILL_AMT1', 'BILL_AMT2',
@@ -126,12 +121,12 @@ def main(input_path, out_path ):
                          columns = column_names
      )
      
-    trans_train_data["default payment next month"] = y_train.values
-    trans_test_data["default payment next month"]  = y_test.values
+    trans_train_data["DEFAULT_PAYMENT_NEXT_MONTH"] = y_train.values
+    trans_test_data["DEFAULT_PAYMENT_NEXT_MONTH"]  = y_test.values
 
     # save transformed data after splitting 
-    save_file(out_path, "transformed_train.csv", trans_train_data)
-    save_file(out_path,"transformed_test.csv",  trans_test_data)
+    save_file(out_dir, "transformed_train.csv", trans_train_data)
+    save_file(out_dir,"transformed_test.csv",  trans_test_data)
 
 if __name__ == "__main__":
-    main(opt["--input_path"],  opt["--out_path"])
+    main(opt["--input_path"],  opt["--out_dir"])

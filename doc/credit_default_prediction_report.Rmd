@@ -40,4 +40,8 @@ What analysis we chose to perform
 
 ## Results & Discussion
 
+- EDA 
+
+_ Analysis
+
 # References

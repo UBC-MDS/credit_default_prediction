@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Adapted from code draft by Tiffany Timbers
 # Author: Lianna Hovhannisyan, Karanpreet Kaur
 # date: 2021-11-19

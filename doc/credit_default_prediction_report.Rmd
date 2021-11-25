@@ -22,7 +22,7 @@ library(tidyverse)
 
 # Summary
 
-This is for summary of the results
+This is for summary of the results. Trying to fetch
 
 # Introduction
 
@@ -39,5 +39,9 @@ General intro from where is data
 What analysis we chose to perform 
 
 ## Results & Discussion
+
+- EDA 
+
+_ Analysis
 
 # References

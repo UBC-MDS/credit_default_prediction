@@ -93,21 +93,27 @@ def main(train_path, test_path, out_dir):
   model_lr = LogisticRegression(max_iter=500)
   model_lr.fit(X_train, y_train)
 
+  # Save logistic regression model with default parameters as .pkl object
+  default_model_out_path = out_dir + 'default_lr_model.pkl'
+  try:
+    pickle.dump(model_lr, open(default_model_out_path, 'wb'))
+  except:
+    os.makedirs(os.path.dirname(default_model_out_path))
+    pickle.dump(model_lr, open(default_model_out_path, 'wb'))
+
   # Do hyperparameter tuning 
   model_lr_tuned = model_hyperparameter_tuning(X_train, y_train)
 
   # Generate random_search_cv_score file for visualization in report
   random_search_cv_score(model_lr_tuned, out_dir)
 
-  # Save both model_lr and model_lr_tuned as a pickle object
-  out_path = out_dir + 'final_model.pkl'
+  # Save tuned logistic regression model with hyperparameters as .pkl object
+  final_tuned_model_out_path = out_dir + 'final_tuned__model.pkl'
   try:
-    pickle.dump(model_lr, open(out_path, 'wb'))
-    pickle.dump(model_lr_tuned, open(out_path, 'wb'))
+    pickle.dump(model_lr_tuned, open(final_tuned_model_out_path, 'wb'))
   except:
-    os.makedirs(os.path.dirname(out_path))
-    pickle.dump(model_lr, open(out_path, 'wb'))
-    pickle.dump(model_lr_tuned, open(out_path, 'wb'))
+    os.makedirs(os.path.dirname(final_tuned_model_out_path))
+    pickle.dump(model_lr_tuned, open(final_tuned_model_out_path, 'wb'))
   
 
 if __name__ == "__main__":

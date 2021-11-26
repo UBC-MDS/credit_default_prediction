@@ -11,14 +11,15 @@ default payment next month or not.
 
 In this project, we built a classification model using Logistic
 Regression to predict if the credit account holders will make a default
-payment or not next month. The model was trained on features that hold
+payment next month. The model was trained on features that hold
 information about the client’s last 6 months bill and payment history,
-as well as several characteristics: age, marital status, gender, etc.
-Overall, we are more interested in minimizing Type \| error (predicting
-not default payment, when in reality client made a default payment next
-month) and Type \|\| error (predicting default payment, when in reality
-client did not do default next month), we are using primarily *f*1 as
-scoring metric. Our model performed fairly well….
+as well as several other characteristics such as: age, marital status,
+education, and gender. Overall, we are more interested in minimizing
+Type \| error (predicting no default payment, when in reality the client
+made a default payment the following month), as opposed to Type \|\|
+error (predicting default payment, when in reality mo default payment
+was made by the client), we are using *f*1 as our primary scoring
+metric. Our model performed fairly well….
 
 The data set used in the project is created by Yeh, I. C., and Lien, C.
 H (Yeh and Lien 2009), and made publicly available for download in UCI
@@ -64,8 +65,7 @@ The final report can be found
 
 If you wish to not use conda environment, please make sure you have all
 the dependencies and packages installed in your local machine, found
-[here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/environment.yaml)
-before running these commands.
+[here](#dependencies) under Dependencies, before running these commands.
 
 After setting up the environment or downloading the dependencies, follow
 up the instructions below.
@@ -97,6 +97,10 @@ up the instructions below.
 
     # render final report
     Rscript -e "rmarkdown::render('doc/credit_default_prediction_report.Rmd', output_format = 'github_document')"
+
+# Dependencies
+
+Will update after final version is ready in env file
 
 ## License
 

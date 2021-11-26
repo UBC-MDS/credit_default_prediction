@@ -26,13 +26,13 @@ library(tidyverse)
 
 An account is considered default, when the client does not make minimum payment for consecutive 6 months period. Predicting potential credit default accounts is challenging, but at the same time crucial for credit card companies. The default can happen for various reasons: the loss of job, change in financial market, personal difficulties, inability to work, health issues, need to use the extra cash for other bills, etc. All of the described can be considered as "out-of-control" from the customers side. However, the default can also be intentional. An example of intentional default is when the client knows that they are no longer financially stable enough for the credit, but continue to use it until the bank intervenes [@Islam2018CreditDM]. The existence of such loopholes makes it essential for creditors to detect default accounts as soon as possible. In general, for creditors earlier they detect the potential default accounts, the lower the losses for the company [@SyedNor2019PersonalBP].
 
-Here we ask if we can use a machine learning algorithm to predict whether customer will do default payment next month or not. The detection of default depends on extensive data profiling of customer's finance, including their age, payment history, marriage status, gender, education. For the creditors, it is at most importance to have the model that predicts the account's next month status, especially if the client is going to make a default payment. [@R], [@misc_default_of_credit_card_clients_350], [@docopt]
+Here we ask if we can use a machine learning algorithm to predict whether customer will do default payment next month or not. The detection of default depends on extensive data profiling of customer's finance, including their age, payment history, marriage status, gender, education. For the creditors, it is at most importance to have the model that predicts the account's next month status, especially if the client is going to make a default payment. The correct prediction will help creditors to plan their risk management and take according actions before the situation gets out of control. [@R], [@misc_default_of_credit_card_clients_350], [@docopt]
 
 # Methods
 
 ## Data
 
-General intro from where is data
+The data set used in the project is created by Yeh, I. C., and Lien, C. H [@Yeh2009TheCO], and made publicly available for download in UCI Machine Learning Repository [@misc_default_of_credit_card_clients_350]. The data can be found \[here\](<https://archive-beta.ics.uci.edu/ml/datasets/default+of+credit+card+clients>), specifically \[this file\](<https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls>).
 
 ## Analysis
 

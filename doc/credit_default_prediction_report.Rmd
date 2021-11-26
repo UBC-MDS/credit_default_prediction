@@ -1,11 +1,12 @@
 ---
-title: "Predicting default payment from past months payment history and client characteristics"
+title: "Predicting default payment from history and client characteristics"
 author: "Lianna Hovhannisyan, Arushi Ahuja, Taiwo Owoseni, Karanpreet Kaur"
 date: "25/11/2021"
-bibliography: default_prediction_refs.bib
+always_allow_html: true
 output:
   html_document:
     toc: true
+bibliography: default_prediction_refs.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -15,33 +16,32 @@ library(kableExtra)
 library(tidyverse)
 ```
 
-
 ```{r load model results}
 # model <- read.csv("../results/...")
 ```
 
 # Summary
 
-This is for summary of the results. Trying to fetch
-
 # Introduction
 
-This is for introduction to the problem [@R], [@misc_default_of_credit_card_clients_350], [@docopt]
+An account is considered default, when the client does not make minimum payment for consecutive 6 months period. Predicting potential credit default accounts is challenging, but at the same time crucial for credit card companies. The default can happen for various reasons: the loss of job, change in financial market, personal difficulties, inability to work, health issues, need to use the extra cash for other bills, etc. All of the described can be considered as "out-of-control" from the customers side. However, the default can also be intentional. An example of intentional default is when the client knows that they are no longer financially stable enough for the credit, but continue to use it until the bank intervenes [@Islam2018CreditDM]. The existence of such loopholes makes it essential for creditors to detect default accounts as soon as possible. In general, for creditors earlier they detect the potential default accounts, the lower the losses for the company [@SyedNor2019PersonalBP].
+
+Here we ask if we can use a machine learning algorithm to predict whether customer will do default payment next month or not. The detection of default depends on extensive data profiling of customer's finance, including their age, payment history, marriage status, gender, education. For the creditors, it is at most importance to have the model that predicts the account's next month status, especially if the client is going to make a default payment. [@R], [@misc_default_of_credit_card_clients_350], [@docopt]
 
 # Methods
 
-## Data 
+## Data
 
 General intro from where is data
 
 ## Analysis
 
-What analysis we chose to perform 
+What analysis we chose to perform
 
 ## Results & Discussion
 
-- EDA 
+-   EDA
 
-_ Analysis
+\_ Analysis
 
 # References

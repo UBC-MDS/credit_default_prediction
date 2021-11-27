@@ -20,9 +20,14 @@ from docopt import docopt
 opt = docopt(__doc__)
 
 def main(file_path, out_dir):
+  
+  #Reading the clean train data set and naming it as train_df_viz
   train_df_viz = pd.read_csv(file_path)
+  
+  #Changing target class "DEFAULT_PAYMENT_NEXT_MONTH" to a string in order to the group them in the visualizations 
   train_df_viz["DEFAULT_PAYMENT_NEXT_MONTH"] = train_df_viz["DEFAULT_PAYMENT_NEXT_MONTH"].apply(str)
   
+  #Creating the histogram for the numerical features
   histogram_numeric_feat = alt.Chart(train_df_viz).mark_bar(opacity = 0.8).encode(
      alt.X(alt.repeat(), type='quantitative', bin=alt.Bin(maxbins=40), scale= alt.Scale(zero= False)),
      y=alt.Y('count()', stack = False),
@@ -37,10 +42,13 @@ def main(file_path, out_dir):
          "PAY_AMT5", "PAY_AMT6"],
          columns =4
          )
+         
+  #saving the histograms as a png in the results folder,and the image is named as "histogram_numeric_feat.png"
   out_dir_numeric = out_dir + "histogram_numeric_feat.png"
   histogram_numeric_feat.save(out_dir_numeric, scale_factor = 2.0)
   
-  categorical = ["EDUCATION", "MARRIAGE", "PAY_0", "PAY_2", "PAY_3", "PAY_4", "PAY_5", "PAY_6"]
+  #Creating bar graphs for categorical and ordinal features
+  categorical = ["EDUCATION", "SEX", "MARRIAGE", "PAY_0", "PAY_2", "PAY_3", "PAY_4", "PAY_5", "PAY_6"]
   categorical_graph = []
 
   for i in range(len(categorical)):
@@ -54,6 +62,7 @@ def main(file_path, out_dir):
 
   categorical_feat_graph = (categorical_graph[0] & categorical_graph[1] & categorical_graph[2]) | (categorical_graph[3] & categorical_graph[4] & categorical_graph[5]) | (categorical_graph[6] & categorical_graph[7])
   
+  #saving the bar graphs as a png in the results folder,and the image is named as "categorical_feat_graph.png"
   out_dir_categorical = out_dir + "categorical_feat_graph.png"
   categorical_feat_graph.save(out_dir_categorical, scale_factor = 2.0)
   

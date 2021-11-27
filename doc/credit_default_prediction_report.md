@@ -84,13 +84,13 @@ cross-validations with *f*1 score as scoring metrics. The Python
 programming language (Van Rossum and Drake 2009) and the following
 Python packages were used for the model analysis: docopt (Keleshev
 2014), sklearn (Buitinck et al. 2013), altair (VanderPlas et al. 2018),
-pandas (McKinney et al. 2010), (**020NumPy-Array?**), os (Van Rossum and
-Drake 2009), requests (Chandra and Varanasi 2015), pickle (Van Rossum
-2020), matplot (Hunter 2007), seaborn (Waskom et al. 2017); as well as R
-programming language (R Core Team 2021) for generating this report and
-the following packages: knitr (Xie 2014), tidyverse (Wickham 2017). The
-code used to perform the analysis and create the report can be found
-[here](https://github.com/UBC-MDS/credit_default_prediction).
+pandas (McKinney et al. 2010), numpy (Harris et al. 2020), os (Van
+Rossum and Drake 2009), requests (Chandra and Varanasi 2015), pickle
+(Van Rossum 2020), matplot (Hunter 2007), seaborn (Waskom et al. 2017);
+as well as R programming language (R Core Team 2021) for generating this
+report and the following packages: knitr (Xie 2014), tidyverse (Wickham
+2017). The code used to perform the analysis and create the report can
+be found [here](https://github.com/UBC-MDS/credit_default_prediction).
 
 ### Results & Discussion
 
@@ -123,6 +123,15 @@ Requests Essentials*. Packt Publishing Ltd.
 
 “<span class="nocase">default of credit card clients</span>.” 2016. UCI
 Machine Learning Repository.
+
+</div>
+
+<div id="ref-2020NumPy-Array" class="csl-entry">
+
+Harris, Charles R., K. Jarrod Millman, Stéfan J van der Walt, Ralf
+Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, et al. 2020.
+“Array Programming with NumPy.” *Nature* 585: 357–62.
+<https://doi.org/10.1038/s41586-020-2649-2>.
 
 </div>
 

@@ -107,6 +107,8 @@ def model_hyperparameter_tuning(X_train, y_train):
                                      refit='f1', 
                                      random_state=123)
   random_search.fit(X_train, y_train)
+  # Test to check the return type of tuned model
+  assert isinstance(random_search, RandomizedSearchCV), "random_search is not a RandomizedSearchCV model"
   return random_search
 
 def main(train_path, test_path, out_dir):
@@ -125,6 +127,9 @@ def main(train_path, test_path, out_dir):
   model_lr = LogisticRegression(max_iter=500)
   model_lr.fit(X_train, y_train)
 
+  # Test to check the type of Logistic Regression model with default hyperparameters
+  assert isinstance(model_lr, LogisticRegression), "model_lr is not a Logistic Regression model"
+
   # Save logistic regression model with default parameters as .pkl object
   default_model_out_path = out_dir + 'default_lr_model.pkl'
   try:
@@ -135,12 +140,12 @@ def main(train_path, test_path, out_dir):
 
   # Do hyperparameter tuning 
   model_lr_tuned = model_hyperparameter_tuning(X_train, y_train)
-  
+
   # Generate random_search_cv_score file for visualization in report
   random_search_cv_score(model_lr_tuned, out_dir)
 
   # Save tuned logistic regression model with hyperparameters as .pkl object
-  final_tuned_model_out_path = out_dir + 'final_tuned__model.pkl'
+  final_tuned_model_out_path = out_dir + 'final_tuned_model.pkl'
   try:
     pickle.dump(model_lr_tuned, open(final_tuned_model_out_path, 'wb'))
   except:

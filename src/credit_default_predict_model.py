@@ -135,7 +135,7 @@ def main(train_path, test_path, out_dir):
 
   # Do hyperparameter tuning 
   model_lr_tuned = model_hyperparameter_tuning(X_train, y_train)
-  print(type(model_lr_tuned))
+  
   # Generate random_search_cv_score file for visualization in report
   random_search_cv_score(model_lr_tuned, out_dir)
 

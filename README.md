@@ -10,7 +10,7 @@ default payment next month or not.
 ## About
 
 In this project, we built a classification model using Logistic
-Regression to predict if the credit account holders will make a default
+Regression to predict if credit account holders will make a default
 payment next month. The model was trained on features that hold
 information about the client’s last 6 months bill and payment history,
 as well as several other characteristics such as: age, marital status,

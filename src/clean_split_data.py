@@ -76,7 +76,21 @@ def read_data(file_path):
 
 def main(input_path, out_dir):
 
+    filename, file_extension = os.path.splitext(input_path)
+
+    # assertion tests
+    assert file_extension == ".csv", f"Wrong extesnion type. Extension has to be {file_extension}"
+
     data = read_data(input_path)
+
+    column_list = ['ID','LIMIT_BAL', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE', 'PAY_0', 'PAY_2',
+       'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6', 'BILL_AMT1', 'BILL_AMT2',
+       'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
+       'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6',
+       'default payment next month']
+
+    assert list(data.columns) == column_list, f"Wrong Data Frame : Features should be {column_list}"
+    data= data.drop(columns= ['ID'])
     data = data.rename(columns={'default payment next month':'DEFAULT_PAYMENT_NEXT_MONTH'})
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=123)
 

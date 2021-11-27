@@ -17,7 +17,7 @@ as well as several other characteristics such as: age, marital status,
 education, and gender. Overall, we are more interested in minimizing
 Type \| error (predicting no default payment, when in reality the client
 made a default payment the following month), as opposed to Type \|\|
-error (predicting default payment, when in reality mo default payment
+error (predicting default payment, when in reality no default payment
 was made by the client), we are using *f*1 as our primary scoring
 metric. Our model performed fairly well….
 

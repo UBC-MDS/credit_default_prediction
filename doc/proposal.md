@@ -12,7 +12,7 @@ The data set is a Taiwan credit card data from April to September, 2005 sourced 
 
 The data set consists of 24 columns partitioned into :
 
-- Twenty three (23) explanatory columns
+- Twenty three explanatory columns
 
 - One response column
 
@@ -94,7 +94,6 @@ jupyter lab src/credit_default_eda.ipynb
   - altair-data-server==0.4.1
   - portpicker==1.5.0
   - jupyterlab==3.2.4
-
 
 ## License
 This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.

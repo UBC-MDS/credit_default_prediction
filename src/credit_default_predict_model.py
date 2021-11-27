@@ -120,7 +120,7 @@ def main(train_path, test_path, out_dir):
   X_train = train_df.drop(columns = ['DEFAULT_PAYMENT_NEXT_MONTH'])
   y_train = train_df['DEFAULT_PAYMENT_NEXT_MONTH']
 
-  # Split train data into input and target 
+  # Split test data into input and target 
   X_test = test_df.drop(columns = ['DEFAULT_PAYMENT_NEXT_MONTH'])
   y_test = test_df['DEFAULT_PAYMENT_NEXT_MONTH']
 

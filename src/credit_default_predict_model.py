@@ -28,7 +28,23 @@ opt = docopt(__doc__)
 
 def random_search_cv_score(model_tuned, out_dir):
   """
-  Returns the f1 score for each cross validation folds in RandomizedSearch
+  Extract and save cross validation f1 scores on hypertuned model.
+
+  This function takes tuned model as input and extract cross validation
+  f1 score for each fold (defined as cv = 10 folds) with defined hyperparameters
+  values C and class_weight and save it on out_dir.
+
+  Parameters
+  ----------
+  model_tuned : object
+      Tuned model on defined hyperparameters of Logistic regression model
+  out_dir : str
+      docopt argument --outdir
+
+  Returns
+  -------
+  None
+      Save the extracted cross validation results to random_search_cv_scores.csv in out_dir
   """
   final_selected_cols = ['param_logisticregression__class_weight', 'param_logisticregression__C',
                        'split0_test_f1', 'split1_test_f1',
@@ -51,7 +67,23 @@ def random_search_cv_score(model_tuned, out_dir):
 
 def model_hyperparameter_tuning(X_train, y_train):
   """
-  Do hyperparameter tuning of linear regression model and returns the tuned model 
+  Hyperparameter tuning on Logistic Regression model.
+
+  This function takes X_train and y_train dataframes and does model tuning using
+  RandomizedSearchCV with given set of hyperparameter C & class_weight and 
+  returns tuned model.
+
+  Parameters
+  ----------
+  X_train : dataframe
+      Input parameters in train split
+  y_train : str
+      Target column of train split
+
+  Returns
+  -------
+  object
+      Returns the tuned model object
   """
   scoring = [
     "accuracy",
@@ -103,7 +135,7 @@ def main(train_path, test_path, out_dir):
 
   # Do hyperparameter tuning 
   model_lr_tuned = model_hyperparameter_tuning(X_train, y_train)
-
+  print(type(model_lr_tuned))
   # Generate random_search_cv_score file for visualization in report
   random_search_cv_score(model_lr_tuned, out_dir)
 

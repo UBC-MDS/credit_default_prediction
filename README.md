@@ -110,7 +110,7 @@ directory of this project:
     python src/credit_default_predict_model.py --train_path="data/preprocessed/transformed_train.csv" --test_path="data/preprocessed/transformed_test.csv" --out_dir="results/"
 
     # render final report
-    Rscript -e "rmarkdown::render('doc/credit_default_prediction_report.Rmd', output_format = 'github_document')"
+    Rscript -e "rmarkdown::render('doc/credit_default_prediction_report.Rmd', output_format = 'html_document')"
 
 ## Dependencies
 

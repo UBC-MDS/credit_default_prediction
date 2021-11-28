@@ -176,7 +176,7 @@ significantly less than the precision and hence f1-score also reflects
 that. The detailed classification of classes in terms of numbers can be
 seen below.
 
-<img src="credit_default_prediction_report_files/figure-gfm/confusion matrix for default model-1.png" title="Figure 3. Confusion matrix of Logistic Regression model with default parameters" alt="Figure 3. Confusion matrix of Logistic Regression model with default parameters" style="display: block; margin: auto;" />
+<img src="../results/confusion_matrix_default.png" title="Figure 3. Confusion matrix of Logistic Regression model with default parameters" alt="Figure 3. Confusion matrix of Logistic Regression model with default parameters" style="display: block; margin: auto;" />
 
 The reason for such large number of Type II errors (False negatives)
 could be due to class imbalance in dataset. So, to identify and minimize
@@ -195,7 +195,7 @@ score is somewhat business dependent as these scores highly impact the
 business costs and strategies. The detailed classification of target can
 be seen below:
 
-<img src="credit_default_prediction_report_files/figure-gfm/confusion matrix for tuned model-3.png" title="Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters" alt="Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters" style="display: block; margin: auto;" />
+<img src="../results/confusion_matrix_tuned_model.png" title="Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters" alt="Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters" style="display: block; margin: auto;" />
 
 To further improve this model in future with hopes that it will be used
 for credit companies, there are several things we can suggest. Firstly,

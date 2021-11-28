@@ -112,14 +112,25 @@ knitr::include_graphics("../results/categorical_feat_graph.png")
 
 The Logistic regression prediction model works fine on test data, with test accuracy of **`r py$default_model_score`** but as our project focuses on predicting the clients with credit defaults and thus it's very crucial for our model to predict Defaulter class correctly and minimize the misclassification errors. To identify the actual errors made by the model,we are checking metrics **recall, precision and f1 score** for **Defaulter class** and our model has these metrics values as **`r py$default_classification_recall`,  `r py$default_classification_precision`, `r py$default_classification_f1_score`** respectively. It can be observed that the recall for Defaulter class is significantly less than the precision and hence f1-score also reflects that. The detailed classification of classes in terms of numbers can be seen below.
 
-```{python confusion matrix for default model, fig.cap='Figure 3. Confusion matrix of Logistic Regression model with default parameters', fig.align = 'center', out_width="100%"}
-plt.show(conf_matrix_default.plot());
+```{python Save confusion_matrix_default, include=FALSE}
+conf_matrix_default.plot()
+plt.savefig('../results/confusion_matrix_default.png')
 ```
+
+```{r confusion matrix for default model, fig.cap='Figure 3. Confusion matrix of Logistic Regression model with default parameters', fig.align = 'center', out_width="100%"}
+knitr::include_graphics("../results/confusion_matrix_default.png")
+```
+
 
 The reason for such large number of Type II errors (False negatives) could be due to class imbalance in dataset. So, to identify and minimize the effect of imbalance, we further improved our model by the recall for the model, we perfomed hyperparameter tuning on Logistic regression model on hyperparameters (C and class_weight) using RandomizedSearchCV. The model returned by random search trains on best parameters and hence we used this model for scoring metrics. The random search gives **test accuracy score** of **`r py$final_tuned_model_score`** and metrics **recall, precision and f1-score** for **Defaulter class** are **`r py$final_tuned_classification_recall`,  `r py$final_tuned_classification_precision`, `r py$final_tuned_classification_f1_score`** respectively. Through hyperparameter tuning, we are able to achieve higher recall and f1-score. There is always some trade-off between recall and precision and hence the precision is lower for the tuned model. The correct amount of trade-off or accepted recall and precision score is somewhat business dependent as these scores highly impact the business costs and strategies. The detailed classification of target can be seen below:
 
-```{python confusion matrix for tuned model, fig.cap='Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters', fig.align = 'center', out_width="100%"}
-plt.show(conf_matrix_tuned.plot());
+```{python Save confusion_matrix_tuned, include=FALSE}
+conf_matrix_tuned.plot()
+plt.savefig('../results/confusion_matrix_tuned_model.png')
+```
+
+```{r confusion matrix for tuned model, fig.cap='Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters', fig.align = 'center', out_width="100%"}
+knitr::include_graphics("../results/confusion_matrix_tuned_model.png")
 ```
 
 To further improve this model in future with hopes that it will be used for credit companies, there are several things we can suggest. Firstly, feature engineering can help us boost our $f1$ score. We believe that the expert knowledge will help to dive deeper into the problem and add features such as the combination ratio of payment and bill, to help our model to rank the features more accurately. Secondly, we will try other classification algorithms such as Random Forest, with the hopes of getting better score and less error pron model. Finally, we will collect more data from other countries such as China, Canada, Japan to have bigger understanding of the trends in default credit payment and train our model with larger dataset.

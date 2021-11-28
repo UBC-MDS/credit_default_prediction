@@ -4,7 +4,7 @@ author: "Lianna Hovhannisyan, Arushi Ahuja, Taiwo Owoseni, Karanpreet Kaur"
 date: "25/11/2021"
 always_allow_html: true
 output:
-  github_document:
+  html_document:
     toc: true
 bibliography: default_prediction_refs.bib
 ---
@@ -12,23 +12,66 @@ bibliography: default_prediction_refs.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(knitr)
-#library(kableExtra)
 library(tidyverse)
+library(kableExtra)
+library(tidyverse)
+library(reticulate)
+conda_list()
+use_condaenv("credit_default_env", required = TRUE)
+py_config()
 ```
 
-```{r load model results}
-# model <- read.csv("../results/...")
+```{python load model results, include=FALSE}
+import pandas
+import pickle
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay, classification_report, accuracy_score
+test_df = pandas.read_csv('../data/preprocessed/transformed_test.csv')
+
+# Split test data into input and target 
+X_test = test_df.drop(columns = ['DEFAULT_PAYMENT_NEXT_MONTH'])
+y_test = test_df['DEFAULT_PAYMENT_NEXT_MONTH']
+
+default_model = pickle.load(open('../results/default_lr_model.pkl', 'rb'))
+final_tuned_model = pickle.load(open('../results/final_tuned_model.pkl', 'rb'))
+
+y_pred_default = default_model.predict(X_test)
+y_pred_tuned = final_tuned_model.predict(X_test)
+
+default_model_score = round(default_model.score(X_test, y_test), 3)
+conf_matrix_default = ConfusionMatrixDisplay.from_predictions(
+                      y_test, y_pred_default, display_labels=["Not Defaulter", "Defaulter"])
+
+default_classification_report = classification_report(y_test, y_pred_default, output_dict = True)
+
+default_classification_recall = round(default_classification_report["1"]["recall"], 3)
+default_classification_precision = round(default_classification_report["1"]["precision"], 3)
+default_classification_f1_score = round(default_classification_report["1"]["f1-score"], 3)
+
+final_tuned_model_score = round(accuracy_score(y_test, y_pred_tuned), 3) # Accuracy score
+conf_matrix_tuned = ConfusionMatrixDisplay.from_predictions(
+                      y_test, y_pred_tuned, display_labels=["Not Defaulter", "Defaulter"])
+
+final_tuned_classification_report = classification_report(y_test, y_pred_tuned, output_dict = True)
+
+final_tuned_classification_recall = round(final_tuned_classification_report["1"]["recall"], 3)
+
+final_tuned_classification_precision = round(final_tuned_classification_report["1"]["precision"], 3)
+
+final_tuned_classification_f1_score = round(final_tuned_classification_report["1"]["f1-score"], 3)
+
 ```
+
 
 ## Summary
 
-In this project, we built a classification model using Logistic Regression to predict if credit account holders will make a default payment next month. The model was trained on features that hold information about the client's last 6 months bill and payment history, as well as several other characteristics such as: age, marital status, education, and gender. Overall, we are more interested in minimizing Type | error (predicting no default payment, when in reality the client made a default payment the following month), as opposed to Type || error (predicting default payment, when in reality no default payment was made by the client), we are using $f1$ as our primary scoring metric. Our model performed fairly well....
+In this project, we built a classification model using Logistic Regression to predict if credit account holders will make a default payment next month. The model was trained on features that hold information about the client’s last 6 months bill and payment history, as well as several other characteristics such as: age, marital status, education, and gender. Overall, we are more interested in minimizing Type I error (predicting no default payment, when in reality the client made a default payment the following month), as opposed to Type II error (predicting default payment, when in reality no default payment was made by the client), we are using $f1$ as our primary scoring metric. Our model performed fairly well on test data set with the $f1$ score being `r py$final_tuned_classification_f1_score`.  Our recall and precision rate are moderately high, being `r py$final_tuned_classification_recall`, `r py$final_tuned_classification_precision` respectively. The given scores are consistent with the train data set scores, thus we can say that the model is generalizable on unseen data. However, the scores are not high, and our model is error prompt. The model can correctly classify default payments roughly half of the time. The value of incorrectly identifying default or no default can cause a lot of money and reputation to the company, thus we recommend continuing study to improve this prediction model before it is put into production in the credit companies. Some of the improvement research topics can be feature engineering, bigger dataset collected from other countries (China, Canada, Japan).
 
 ## Introduction
 
-An account is considered the default when the client does not make the minimum payment for a consecutive 6 months period. Predicting potential credit default accounts is challenging but at the same time crucial for credit card companies. The default can happen for various reasons: the loss of a job, change in the financial market, personal difficulties, inability to work, health issues, need to use the extra cash for other bills, etc. All of the described can be considered as "out-of-control" from the customers' side. However, the default can also be intentional. An example of intentional default is when the client knows that they are no longer financially stable enough for the credit, but continue to use it until the bank intervenes [@Islam2018CreditDM]. The existence of such loopholes makes it essential for creditors to detect default accounts as soon as possible. In general, for creditors earlier they detect the potential default accounts, the lower the losses for the company [@SyedNor2019PersonalBP].
+An account makes a default payment when the minimum payment is not made for a consecutive 6 months period. Predicting potential credit default accounts is challenging but at the same time crucial for credit card companies. The default can happen for various reasons: the loss of a job, change in the financial market, personal difficulties, inability to work, health issues, need to use the extra cash for other bills, etc. All of the examples described can be considered as "out-of-control" from the customers' side. However, the default can also be intentional. An example of intentional default is when the client knows that they are no longer financially stable enough for credit, but continues to use credit until the bank intervenes [@Islam2018CreditDM]. The existence of such loopholes makes it essential for creditors to detect default accounts as soon as possible. In general for creditors, the earlier they detect the potential default accounts, the lower their losses will be [@SyedNor2019PersonalBP].
 
-Here we ask if we can use a machine-learning algorithm to predict whether the customer will do default payment next month or not. The detection of default depends on extensive data profiling of customer's finance, including their age, payment history, marriage status, gender, education. For the creditors, it is most important to have the model that predicts the account's next month's status, especially if the client is going to make a default payment. The correct prediction will help creditors to plan their risk management and take according to actions before the situation gets out of control.
+Here we ask if we can use machine-learning algorithms to predict whether a customer will do a default payment next month or not. The detection of default depends on extensive data profiling of customer's finance, along with other information such as their age, payment history, marriage status, gender, education. For the creditors, it is most important to have the model that predicts the account's next month's status, especially if the client is going to make a default payment. The correct prediction will help creditors to plan their risk management and take steps before the situation gets out of control.
 
 ## Methods
 
@@ -38,16 +81,20 @@ The data set used in the project is created by Yeh, I. C., and Lien, C. H [@Yeh2
 
 ### Analysis
 
-The Logistic Regression algorithm was used to build a classification model for the default credit card dataset to predict whether the client will make a default payment or not in the next month (can be found in the "default payment next month" column with binary label). All the features included in the original dataset were used for tuning and fitting the model. The hyperparameter $C$ was chosen using 10 cross-validations with $f1$ score as scoring metrics. The Python programming language [@Python] and the following Python packages were used for the model analysis: docopt [@docoptpython], sklearn [@sklearn_api], altair [@vanderplas2018altair], pandas [@mckinney2010data], numpy [@2020NumPy-Array], os [@Python], requests [@chandra2015python], pickle [@van1995python], matplot [@hunter2007matplotlib], seaborn [@michael_waskom_2017_883859]; as well as R programming language [@R] for generating this report and the following packages: knitr [@knitr], tidyverse [@tidyverse]. The code used to perform the analysis and create the report can be found [here](https://github.com/UBC-MDS/credit_default_prediction).
+The Logistic Regression algorithm is one of the most popular ways to fit models for categorical data, especially for binary response data in data modeling. That is why it was used to build a classification model for the default credit card dataset to predict whether the client will make a default payment in the next month (can be found in the “default payment next month” column with binary label). All the features included in the original dataset were used for tuning and fitting the model. The hyperparameter $C$, $class\_weight$ were chosen using 10 cross-validations with $f1$ score as primary scoring metric (recall and precision also considered). The Python programming language [@Python] and the following Python packages were used for the model analysis: docopt [@docoptpython], sklearn [@sklearn_api], altair [@vanderplas2018altair], pandas [@mckinney2010data], numpy [@2020NumPy-Array], os [@Python], requests [@chandra2015python], pickle [@van1995python], matplot [@hunter2007matplotlib], seaborn [@michael_waskom_2017_883859]; as well as R programming language [@R] for generating this report and the following packages: knitr [@knitr], tidyverse [@tidyverse]. The code used to perform the analysis and create the report can be found [here](https://github.com/UBC-MDS/credit_default_prediction).
 
 ### Results & Discussion
-
--   EDA
 
 In order to understand which features play an important role in the decision making and prediction within the model, we will look at the distributions of each feature individually either through bar graphs or histograms depending on the type of feature, and we will also be grouping them by the 2 target classes. Here the target classes are: "1" if default payment was made meaning that the client did not pay their credit on time, and "0" if no default payment was made meaning that the client did pay their credit on time. It is important to note that because this is the preliminary analysis before any transformations or model making, the visualizations do not take into account the class imbalance and so while we may come to conclusions about the features right now, they may contain a certain amount of bias to them. 
 
 For the numerical features, we will be looking at their histograms and will be mainly focusing on how the target classes overlap with each other for each feature.
 Less overlap between target classes in general would indicate to creating a more realistic model, this is because the model would be able to easily classify the target classes given the difference in values of the features for each target class. Furthermore, this would give us an idea of which features we could potentially give more importance to and exactly how to define our predictive model. From Figure 1, we see that most features show very little overlap, telling us that right now it would not be wise to remove any feature from the analysis. 
+
+
+```{r histogram_numeric_feat, echo=FALSE, fig.cap="Figure 1. Comparison of distributions for the numerical features of the training data set grouped by target classes", fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("../results/histogram_numeric_feat.png")
+```
+
 
 For the ordinal and categorical features such as sex, education, and whether a client has payed their past month credit or not, instead of looking at the histograms, we instead will be looking at the bar graphs in order to understand the proportions of the target classes in each of the categories in all features. Since the categories for the features are classified by numbers, here I will provide an explanation for what the numbers represent in each feature: 
 
@@ -59,24 +106,31 @@ For the ordinal and categorical features such as sex, education, and whether a c
 
 On looking at the bar graphs in Figure 2, it is hard to say which features could play a more important role in the predictions, in general we see that proportions for "0" target class are higher for each category in all features. 
 
-```{r histogram_numeric_feat, echo=FALSE, fig.cap="Figure 1. Comparison of distributions for the numerical features of the training data set grouped by target classes", out.width = '100%'}
-knitr::include_graphics("../results/histogram_numeric_feat.png")
-```
-
-```{r bar_categorical_feat, echo=FALSE, fig.cap="Figure 2. Comparison of proportions for the categorical and ordinal features of the training data set grouped by target classes", out.width = '100%'}
+```{r bar_categorical_feat, echo=FALSE, fig.cap="Figure 2. Comparison of proportions for the categorical and ordinal features of the training data set grouped by target classes", fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("../results/categorical_feat_graph.png")
 ```
-- Analysis
 
-- EDA: confidence interval plot
+The Logistic regression prediction model works fine on test data, with test accuracy of **`r py$default_model_score`** but as our project focuses on predicting the clients with credit defaults and thus it's very crucial for our model to predict Defaulter class correctly and minimize the misclassification errors. To identify the actual errors made by the model,we are checking metrics **recall, precision and f1 score** for **Defaulter class** and our model has these metrics values as **`r py$default_classification_recall`,  `r py$default_classification_precision`, `r py$default_classification_f1_score`** respectively. It can be observed that the recall for Defaulter class is significantly less than the precision and hence f1-score also reflects that. The detailed classification of classes in terms of numbers can be seen below.
 
-During model building, a key step in creating a accurate and realistic model is finding the best hyperparameter values for the model that minimizes both underfitting and overfitting during prediction. Figure 3 gives a glimpse on how we went about finding the best hyperparameters for the Logistic Regression model. Here the 2 hyperparameter we are finding values for are:
+```{python confusion matrix for default model, fig.cap='Figure 3. Confusion matrix of Logistic Regression model with default parameters', fig.align = 'center', out_width="100%"}
+plt.show(conf_matrix_default.plot());
+```
+
+The reason for such large number of Type II errors (False negatives) could be due to class imbalance in dataset. So, to identify and minimize the effect of imbalance, we further improved our model by the recall for the model, we perfomed hyperparameter tuning on Logistic regression model on hyperparameters (C and class_weight) using RandomizedSearchCV. The model returned by random search trains on best parameters and hence we used this model for scoring metrics. The random search gives **test accuracy score** of **`r py$final_tuned_model_score`** and metrics **recall, precision and f1-score** for **Defaulter class** are **`r py$final_tuned_classification_recall`,  `r py$final_tuned_classification_precision`, `r py$final_tuned_classification_f1_score`** respectively. Through hyperparameter tuning, we are able to achieve higher recall and f1-score. There is always some trade-off between recall and precision and hence the precision is lower for the tuned model. The correct amount of trade-off or accepted recall and precision score is somewhat business dependent as these scores highly impact the business costs and strategies. The detailed classification of target can be seen below:
+
+```{python confusion matrix for tuned model, fig.cap='Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters', fig.align = 'center', out_width="100%"}
+plt.show(conf_matrix_tuned.plot());
+```
+
+To further improve this model in future with hopes that it will be used for credit companies, there are several things we can suggest. Firstly, feature engineering can help us boost our $f1$ score. We believe that the expert knowledge will help to dive deeper into the problem and add features such as the combination ratio of payment and bill, to help our model to rank the features more accurately. Secondly, we will try other classification algorithms such as Random Forest, with the hopes of getting better score and less error pron model. Finally, we will collect more data from other countries such as China, Canada, Japan to have bigger understanding of the trends in default credit payment and train our model with larger dataset.
+
+Figure 3 gives a glimpse on how we went about finding the best hyperparameters for the Logistic Regression model. Here the 2 hyperparameter we are finding values for are:
 - "C" which defines the complexity of the model. Higher value of C means a more complex model.
 - "class weights" which can be only two values "balanced" or None . If "class weights" is "balanced" then that means we are treating all features equally in the decision making process during prediction. 
 
 After carrying out Random Search cross validation with 10 folds, Figure 3 shows the different combination of the two hyperparamters along with the scores of those models. We see that the model provides the best score with "class weights" equal to "balanced" and "C" equal to 0.1. 
 
-```{r bar_categorical_feat, echo=FALSE, fig.cap="Figure 3. Comparison of scores while tuning hyperparamters for the Logistic Regression model", out.width = '100%'}
+```{r random_search_graph, echo=FALSE, fig.cap="Figure 5. Comparison of scores while tuning hyperparamters for the Logistic Regression model", fig.align = 'center',out.width = '60%'}
 knitr::include_graphics("../results/random_search.png")
 ```
 

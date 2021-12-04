@@ -4,7 +4,7 @@ author: "Lianna Hovhannisyan, Arushi Ahuja, Taiwo Owoseni, Karanpreet Kaur"
 date: "25/11/2021"
 always_allow_html: true
 output:
-  html_document:
+  github_document:
     toc: true
 bibliography: default_prediction_refs.bib
 ---
@@ -25,7 +25,7 @@ conda_list()
 import pandas
 import pickle
 import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay, classification_report, accuracy_score
+from sklearn.metrics import ConfusionMatrixDisplay, classification_report, accuracy_score, average_precision_score, roc_auc_score
 test_df = pandas.read_csv('../data/preprocessed/transformed_test.csv')
 
 # Split test data into input and target 
@@ -39,16 +39,24 @@ y_pred_default = default_model.predict(X_test)
 y_pred_tuned = final_tuned_model.predict(X_test)
 
 default_model_score = round(default_model.score(X_test, y_test), 3)
+
 conf_matrix_default = ConfusionMatrixDisplay.from_predictions(
                       y_test, y_pred_default, display_labels=["Not Defaulter", "Defaulter"])
 
 default_classification_report = classification_report(y_test, y_pred_default, output_dict = True)
 
 default_classification_recall = round(default_classification_report["1"]["recall"], 3)
+
 default_classification_precision = round(default_classification_report["1"]["precision"], 3)
+
 default_classification_f1_score = round(default_classification_report["1"]["f1-score"], 3)
 
+default_classification_average_precision = round(average_precision_score(y_test, y_pred_default), 3)
+
+default_classification_roc_auc = round(roc_auc_score(y_test, y_pred_default), 3)
+
 final_tuned_model_score = round(accuracy_score(y_test, y_pred_tuned), 3) # Accuracy score
+
 conf_matrix_tuned = ConfusionMatrixDisplay.from_predictions(
                       y_test, y_pred_tuned, display_labels=["Not Defaulter", "Defaulter"])
 
@@ -60,12 +68,16 @@ final_tuned_classification_precision = round(final_tuned_classification_report["
 
 final_tuned_classification_f1_score = round(final_tuned_classification_report["1"]["f1-score"], 3)
 
+final_tuned_classification_average_precision = round(average_precision_score(y_test, y_pred_tuned), 3)
+
+final_tuned_classification_roc_auc = round(roc_auc_score(y_test, y_pred_tuned), 3)
+
 ```
 
 
 ## Summary
 
-In this project, we built a classification model using Logistic Regression to predict if credit account holders will make a default payment next month. The model was trained on features that hold information about the client’s last 6 months bill and payment history, as well as several other characteristics such as: age, marital status, education, and gender. Overall, we are more interested in minimizing Type I error (predicting no default payment, when in reality the client made a default payment the following month), as opposed to Type II error (predicting default payment, when in reality no default payment was made by the client), we are using $f1$ as our primary scoring metric. Our model performed fairly well on test data set with the $f1$ score being `r py$final_tuned_classification_f1_score`.  Our recall and precision rate are moderately high, being `r py$final_tuned_classification_recall`, `r py$final_tuned_classification_precision` respectively. The given scores are consistent with the train data set scores, thus we can say that the model is generalizable on unseen data. However, the scores are not high, and our model is error prompt. The model can correctly classify default payments roughly half of the time. The value of incorrectly identifying default or no default can cause a lot of money and reputation to the company, thus we recommend continuing study to improve this prediction model before it is put into production in the credit companies. Some of the improvement research topics can be feature engineering, bigger dataset collected from other countries (China, Canada, Japan).
+In this project, we built a classification model using Logistic Regression to predict if credit account holders will make a default payment next month. The model was trained on features that hold information about the client’s last 6 months bill and payment history, as well as several other characteristics such as: age, marital status, education, and gender. Overall, we are more interested in minimizing Type I error (predicting no default payment, when in reality the client made a default payment the following month), as opposed to Type II error (predicting default payment, when in reality no default payment was made by the client), we are using $f1$ as our primary scoring metric. Our model performed fairly well on test data set with the $f1$ score being `r py$final_tuned_classification_f1_score`.  Our recall and precision rate are moderately high, being `r py$final_tuned_classification_recall`, `r py$final_tuned_classification_precision` respectively. We would also report average_precision_score (AP) as it summarizes a precision-recall curve as the weighted mean of precisions achieved at each threshold, with the increase in recall from the previous threshold used as the weight and that would tell us that the overall model performance on imbalance dataset. The given scores are consistent with the train data set scores, thus we can say that the model is generalizable on unseen data. However, the scores are not high, and our model is error prompt. The model can correctly classify default payments roughly half of the time. The value of incorrectly identifying default or no default can cause a lot of money and reputation to the company, thus we recommend continuing study to improve this prediction model before it is put into production in the credit companies. Some of the improvement research topics can be feature engineering, bigger dataset collected from other countries (China, Canada, Japan).
 
 ## Introduction
 
@@ -93,42 +105,68 @@ Figure 1 plots the correlation heat map, here there are two major observations:
 
 (2) We see that most of the feature firstly have low correlation in general with the target feature. Additionally, most of them show a negative correlation with the target feature. 
 
-```{r correlation_heatmap, echo=FALSE, fig.cap="Figure 1. Correlation heatmap with features and target class", fig.align = 'center', out.width = '100%'}
-knitr::include_graphics("../results/correlation_heatmap_plot.png")
-```
-The Logistic regression prediction model works fine on test data, with test accuracy of **`r py$default_model_score`** but as our project focuses on predicting the clients with credit defaults and thus it's very crucial for our model to predict Defaulter class correctly and minimize the misclassification errors. To identify the actual errors made by the model,we are checking metrics **recall, precision and f1 score** for **Defaulter class** and our model has these metrics values as **`r py$default_classification_recall`,  `r py$default_classification_precision`, `r py$default_classification_f1_score`** respectively. It can be observed that the recall for Defaulter class is significantly less than the precision and hence f1-score also reflects that. The detailed classification of classes in terms of numbers can be seen below.
+<center>
+
+![](../results/correlation_heatmap_plot.png)
+
+Figure 1. Correlation heatmap with features and target class
+
+</center>
+
+### Overview of the method
+As mentioned previously, our data set consists of 30000 observations, which we consider as the large enough sample for using Logistic Regression as the primary method. In addition, the features, that are being used to train the model on, are relevant to the target class, thus Logistic Regression we will give us the results that are reliable, and easy to interpret to stakeholders.
+
+Before starting the tuning, we splited our data set into train and test sets. 20% of the observations will be included in the test data and 80% in the train data set. The split will ensure the needed balance for having enough data for the fitting and cross validation set, as well as large enough test data for the final affirmation of the model: more precisely, the train set will have 24000 observations, and test set 6000.
+To have generalizable results, cross validation was carried out on the train set with 10 folds. The best hyperparameters (C and class_weight) were chosen by randomized search.
+
+### The evaluation of the method
+With the accuracy as the scoring metric, the Logistic regression prediction model produced good results, with the test accuracy of **`r py$default_model_score`**. However, as our project focuses on predicting the clients with credit defaults, it’s crucial for our model to predict Defaulter class correctly and minimize the misclassification error. To identify the actual errors made by the model, we checked the values of metrics **recall, precision and f1 score** for **Defaulter class**: **recall = `r py$default_classification_recall`, precision = `r py$default_classification_precision`, f1_score = `r py$default_classification_f1_score`**. It can be observed that the recall for Defaulter class is significantly less than the precision. The detailed classification of classes in terms of numbers can be seen below. The **AP score** is **`r py$default_classification_average_precision`** which is every low for this case due to large number of misclassifications for Defaulter class (i.e. higher FN's). The detailed classification of classes in terms of numbers can be seen below.
+
 
 ```{python Save confusion_matrix_default, include=FALSE}
 conf_matrix_default.plot()
-plt.savefig('../results/confusion_matrix_default.png')
+plt.savefig("../results/confusion_matrix_default.png")
 ```
 
-```{r confusion matrix for default model, fig.cap='Figure 3. Confusion matrix of Logistic Regression model with default parameters', fig.align = 'center', out_width="100%"}
-knitr::include_graphics("../results/confusion_matrix_default.png")
-```
+<center>
+
+![](../results/confusion_matrix_default.png)<!-- -->
+
+Figure 2. Confusion matrix of Logistic Regression model with default parameters
+
+</center>
+
+The reason for such large number of Type II errors (False negatives) could be due to class imbalance in data set. So, to identify and minimize the effect of imbalance, we choose to change the training procedure by taking advantage of sklearn parameter called class_weight. class_weight = 'balanced' gives higher weight to minority class (1) and lower weight to majority class (0) to balance out their representation in the dataset.
+The hyperparameter tuning was performed on Logistic regression model for C and class_weight hyperparameters using RandomizedSearchCV. “C” hyperparameter defines the complexity of the model: higher value of C means a more complex model. Since C value determines the log loss on dataset , we have choosen values [0.001, 0.01, 0.1, 1, 10, 100, 1000] for hyperparameter C and ['None', 'balanced'] for class_weight. The Figure 3 gives a glimpse on how we went about finding the best hyperparameters for the Logistic Regression model.
+After carrying out Random Search cross validation with 10 folds, Figure 3 shows the different combination of the two hyperparamters along with the scores of those models. We see that the model provides the best score with “class weights” equal to “balanced” and “C” equal to 0,1. The returned best parameters were used to evaluate the model on the test data.
+
+<center>
+
+![](../results/random_search.png)<!-- -->
+
+Figure 3. Comparison of scores while tuning hyperparamters for the Logistic Regression model
+
+</center>
 
 
-The reason for such large number of Type II errors (False negatives) could be due to class imbalance in dataset. So, to identify and minimize the effect of imbalance, we further improved our model by the recall for the model, we perfomed hyperparameter tuning on Logistic regression model on hyperparameters (C and class_weight) using RandomizedSearchCV. The model returned by random search trains on best parameters and hence we used this model for scoring metrics. The random search gives **test accuracy score** of **`r py$final_tuned_model_score`** and metrics **recall, precision and f1-score** for **Defaulter class** are **`r py$final_tuned_classification_recall`,  `r py$final_tuned_classification_precision`, `r py$final_tuned_classification_f1_score`** respectively. Through hyperparameter tuning, we are able to achieve higher recall and f1-score. There is always some trade-off between recall and precision and hence the precision is lower for the tuned model. The correct amount of trade-off or accepted recall and precision score is somewhat business dependent as these scores highly impact the business costs and strategies. The detailed classification of target can be seen below:
+The random search gives **test accuracy score** of **`r py$final_tuned_model_score`** and metrics **recall, precision and f1-score** for **Defaulter class** are **`r py$final_tuned_classification_recall`,  `r py$final_tuned_classification_precision`, `r py$final_tuned_classification_f1_score`** respectively. Thus, through hyperparameter tuning, we were able to achieve higher recall and f1-score. However, there is always trade-off between recall and precision, as evidenced with the lower precision score for the tuned model. The **AP score** is **`r py$final_tuned_classification_average_precision`** which is even lower than we received earlier but since we want to minimize the misclassifications on Defaulter class (FN), the False positives would increase and hence average precision would decrease. There is always a tradeoff between recall and precision and the correct amount of trade-off or accepted recall and precision score is somewhat business dependent as these scores highly impact the business costs and strategies. The detailed classification of target can be seen below:
 
 ```{python Save confusion_matrix_tuned, include=FALSE}
 conf_matrix_tuned.plot()
-plt.savefig('../results/confusion_matrix_tuned_model.png')
+plt.savefig("../results/confusion_matrix_tuned_model.png")
 ```
 
-```{r confusion matrix for tuned model, fig.cap='Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters', fig.align = 'center', out_width="100%"}
-knitr::include_graphics("../results/confusion_matrix_tuned_model.png")
-```
+<center>
 
-To further improve this model in future with hopes that it will be used for credit companies, there are several things we can suggest. Firstly, feature engineering can help us boost our $f1$ score. We believe that the expert knowledge will help to dive deeper into the problem and add features such as the combination ratio of payment and bill, to help our model to rank the features more accurately. Secondly, we will try other classification algorithms such as Random Forest, with the hopes of getting better score and less error pron model. Finally, we will collect more data from other countries such as China, Canada, Japan to have bigger understanding of the trends in default credit payment and train our model with larger dataset.
+![](../results/confusion_matrix_tuned_model.png)<!-- -->
 
-Figure 3 gives a glimpse on how we went about finding the best hyperparameters for the Logistic Regression model. Here the 2 hyperparameter we are finding values for are:
-- "C" which defines the complexity of the model. Higher value of C means a more complex model.
-- "class weights" which can be only two values "balanced" or None . If "class weights" is "balanced" then that means we are treating all features equally in the decision making process during prediction. 
+Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters
 
-After carrying out Random Search cross validation with 10 folds, Figure 3 shows the different combination of the two hyperparamters along with the scores of those models. We see that the model provides the best score with "class weights" equal to "balanced" and "C" equal to 0.1. 
+</center>
 
-```{r random_search_graph, echo=FALSE, fig.cap="Figure 5. Comparison of scores while tuning hyperparamters for the Logistic Regression model", fig.align = 'center',out.width = '60%'}
-knitr::include_graphics("../results/random_search.png")
-```
+To conclude, even though the scores are not very high, we believe our model is generalizable for the unseen data. However, given the importance for the companies to have high rates for predicting the Default class, we acknowledge that our model may not be the best suit for the most companies.In future, as we grow our knowledge on new techniques of handling such datasets, we will keep contributing to this project for improvement.
+
+### Discussion
+To further improve this model in future with hopes that it will be used for credit companies, there are several things we can suggest. Firstly, feature engineering can help us boost our $f1$ score. We believe that the expert knowledge will help to dive deeper into the problem and add features such as the combination ratio of payment and bill, to help our model to rank the features more accurately. Secondly, we will try other classification algorithms such as Random Forest, with the hopes of getting better score and less error pron model. Finally, we will collect more data from other countries such as China, Canada, Japan to have bigger understanding of the trends in default credit payment and train our model with larger data set.
 
 ## References

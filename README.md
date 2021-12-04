@@ -91,13 +91,13 @@ from this created environment in your `.Rprofile` file:
 directory of this project:
 
     # download data
-    python src/download_data.py --out_type=xls --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls --out_file=data/raw/default_credit_card_clients.csv
+    python src/download_data.py --out_type=csv --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls --out_file=data/raw/default_credit_card_clients.csv
 
     # clean data  
     python src/clean_split_data.py --input_path="data/raw/default_credit_card_clients.csv" --out_dir="data/preprocessed"
 
     # transform data
-    python src/transformed_data.py --input_path="data/preprocessed/cleaned_data.csv" --out_dir="data/preprocessed"
+    python src/transform_data.py --input_path="data/preprocessed/cleaned_data.csv" --out_dir="data/preprocessed"
 
     # run eda report
     jupyter lab src/credit_default_eda.ipynb

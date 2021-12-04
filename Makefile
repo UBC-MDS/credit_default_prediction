@@ -23,9 +23,9 @@ results/final_tuned_model.pkl results/default_lr_model.pkl results/random_search
 																								python src/credit_default_predict_model.py --train_path="data/preprocessed/transformed_train.csv" --test_path="data/preprocessed/transformed_test.csv" --out_dir="results/"
 
 # create exploratory data analysis figure and write to file 
-results/histogram_numeric_feat.png	results/categorical_feat_graph.png:	src/credit_default_eda.py data/preprocessed/cleaned_train.csv
-																			python src/credit_default_eda.py --file_path="data/preprocessed/cleaned_train.csv" --out_dir="results/"
-																			
+results/histogram_numeric_feat.png	results/categorical_feat_graph.png:	src/credit_default_eda.py data/preprocessed/transformed_train.csv
+																		python src/credit_default_eda.py --file_path="data/preprocessed/transformed_train.csv" --out_dir="results/"
+
 results/random_search.png:	src/random_search_eda.py results/random_search_cv_scores.csv
 							python src/random_search_eda.py --file_path="results/random_search_cv_scores.csv" --out_dir="results/"
 

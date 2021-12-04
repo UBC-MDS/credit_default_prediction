@@ -52,7 +52,7 @@ of next month column: labeled 1 (client will make a default) and 0
 The final report can be found
 [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.html).
 
-The link to the Milestone 2 release can be found
+The link to the Milestone 3 release can be found
 [here](https://github.com/UBC-MDS/credit_default_prediction/releases/tag/0.1.1).
 
 ## Usage

@@ -18,7 +18,7 @@ In this project, we built a classification model using Logistic Regression to pr
 The data set used in the project is created by Yeh, I. C., and Lien, C. H [@Yeh2009TheCO], and made publicly available for download in UCI Machine Learning Repository [@misc_default_of_credit_card_clients_350]. The data can be found [here](<https://archive-beta.ics.uci.edu/ml/datasets/default+of+credit+card+clients>), specifically [this file](<https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls>). The dataset is based on Taiwan's credit card client default cases from April to September. It has 30000 examples, and each example represents particular client's information. The dataset has 24 observations with respective values such as gender, age, marital status, last 6 months bills, last 6 months payments, etc, including the final default payment of next month column: labeled 1 (client will make a default) and 0 (client will not make a default).
 
 ## Report
-The final report can be found [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.md).
+The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.html).
 
 ## Usage
 

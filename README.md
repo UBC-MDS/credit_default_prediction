@@ -50,7 +50,7 @@ of next month column: labeled 1 (client will make a default) and 0
 ## Report
 
 The final report can be found
-[here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.md).
+[here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.html).
 
 ## Usage
 

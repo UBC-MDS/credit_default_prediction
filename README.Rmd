@@ -20,6 +20,8 @@ The data set used in the project is created by Yeh, I. C., and Lien, C. H [@Yeh2
 ## Report
 The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.html).
 
+The link to the Milestone 3 release can be found [here](https://github.com/UBC-MDS/credit_default_prediction/releases/tag/0.1.1). 
+
 ## Usage
 
 -- To replicate the analysis, please clone this GitHub repository. 

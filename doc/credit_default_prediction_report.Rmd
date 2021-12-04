@@ -13,12 +13,12 @@ bibliography: default_prediction_refs.bib
 knitr::opts_chunk$set(echo = FALSE)
 library(knitr)
 library(tidyverse)
-library(kableExtra)
+#library(kableExtra)
 library(tidyverse)
 library(reticulate)
 conda_list()
-use_condaenv("credit_default_env", required = TRUE)
-py_config()
+#use_condaenv("credit_default_env", required = TRUE)
+#py_config()
 ```
 
 ```{python load model results, include=FALSE}
@@ -85,31 +85,17 @@ The Logistic Regression algorithm is one of the most popular ways to fit models 
 
 ### Results & Discussion
 
-In order to understand which features play an important role in the decision making and prediction within the model, we will look at the distributions of each feature individually either through bar graphs or histograms depending on the type of feature, and we will also be grouping them by the 2 target classes. Here the target classes are: "1" if default payment was made meaning that the client did not pay their credit on time, and "0" if no default payment was made meaning that the client did pay their credit on time. It is important to note that because this is the preliminary analysis before any transformations or model making, the visualizations do not take into account the class imbalance and so while we may come to conclusions about the features right now, they may contain a certain amount of bias to them. 
+In order to understand which features play an important role in the decision making and prediction within the model, we will be analyzing the correlations between features an also how they correlate to the target class. So that we can get the most accurate correlations, we are looking at the transformed data and eliminating any sort of initial biases in the data. Note that correlation numbers range anywhere between -1 to 1, here we will be calculation correlation numbers between either two feature or a feature and a target class. Negative numbers indicate a negative correlation, which means that if we are looking the correlation number between two features, it could be that if one feature value increases the other feature value decreases (and vice versa), -1 is highest possible negative correlation. Similarly positive numbers indicate a positive correlation, which means that if we are looking the correlation number between two features, it could be that if one feature increases the other feature also increases (and vice versa), +1 is the highest possible positive correlation. Lastly, zero represent no correlation between the two variables. It is important to note that we don't exactly know which direction the correlation is pointing, however in our case we are more concerned with seeing which features would play a higher role in the decision making of the model. 
 
-For the numerical features, we will be looking at their histograms and will be mainly focusing on how the target classes overlap with each other for each feature.
-Less overlap between target classes in general would indicate to creating a more realistic model, this is because the model would be able to easily classify the target classes given the difference in values of the features for each target class. Furthermore, this would give us an idea of which features we could potentially give more importance to and exactly how to define our predictive model. From Figure 1, we see that most features show very little overlap, telling us that right now it would not be wise to remove any feature from the analysis. 
+Figure 1 plots the correlation heat map, here there are two major observations: 
 
+(1) We see high positive correlations among the `BILL_AMT` features, those features represent the bill amount for each month for 6 months going from April to September, 2005 (where `BILL_AMT1` represents bill amount for April). This positive correlation can indicate to two things: higher bill amounts in a month would most likely lead to higher amounts in the next month, and secondly those higher amounts in the next month can be associated with client's bill amounts accumulating because they haven't made their payments on time. 
 
-```{r histogram_numeric_feat, echo=FALSE, fig.cap="Figure 1. Comparison of distributions for the numerical features of the training data set grouped by target classes", fig.align = 'center', out.width = '100%'}
-knitr::include_graphics("../results/histogram_numeric_feat.png")
+(2) We see that most of the feature firstly have low correlation in general with the target feature. Additionally, most of them show a negative correlation with the target feature. 
+
+```{r correlation_heatmap, echo=FALSE, fig.cap="Figure 1. Correlation heatmap with features and target class", fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("../results/correlation_heatmap_plot.png")
 ```
-
-
-For the ordinal and categorical features such as sex, education, and whether a client has payed their past month credit or not, instead of looking at the histograms, we instead will be looking at the bar graphs in order to understand the proportions of the target classes in each of the categories in all features. Since the categories for the features are classified by numbers, here I will provide an explanation for what the numbers represent in each feature: 
-
-- SEX: 1 depicts male and 2 depicts female.
-- PAY_0 - PAY_6 : -2 represents balance paid in full and no transactions in this period (we may refer to this credit card account as having been 'inactive' this period).-1 represents pay duly, but customer's account has a positive balance at end of period due to recent transactions for which payment has not yet come due.
-0 represents customer paid the minimum due amount, but not the entire balance. And finally, positive numbers represent payment delays by those many number of months, so for example PAY_0 is 1, then the payment is delayed by one month. 
-- MARRIAGE: 1 depicts married, 2 depicts single and 3 depicts others.
-- EDUCATION: 1 depicts graduate school, 2 depicts university, 3 depicts high school and 4 depicts others.
-
-On looking at the bar graphs in Figure 2, it is hard to say which features could play a more important role in the predictions, in general we see that proportions for "0" target class are higher for each category in all features. 
-
-```{r bar_categorical_feat, echo=FALSE, fig.cap="Figure 2. Comparison of proportions for the categorical and ordinal features of the training data set grouped by target classes", fig.align = 'center', out.width = '100%'}
-knitr::include_graphics("../results/categorical_feat_graph.png")
-```
-
 The Logistic regression prediction model works fine on test data, with test accuracy of **`r py$default_model_score`** but as our project focuses on predicting the clients with credit defaults and thus it's very crucial for our model to predict Defaulter class correctly and minimize the misclassification errors. To identify the actual errors made by the model,we are checking metrics **recall, precision and f1 score** for **Defaulter class** and our model has these metrics values as **`r py$default_classification_recall`,  `r py$default_classification_precision`, `r py$default_classification_f1_score`** respectively. It can be observed that the recall for Defaulter class is significantly less than the precision and hence f1-score also reflects that. The detailed classification of classes in terms of numbers can be seen below.
 
 ```{python Save confusion_matrix_default, include=FALSE}

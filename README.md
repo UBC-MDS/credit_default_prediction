@@ -54,7 +54,7 @@ The final report can be found
 
 ## Usage
 
-– To replicate the analysis, clone this GitHub repository.
+– To replicate the analysis, please clone this GitHub repository.
 
 – To set up the necessary packages for running the project, download the
 environment file from
@@ -70,47 +70,36 @@ JupyterLab installed (e.g. base).
 
     conda install nb_conda_kernels
 
-After setting up the environment or downloading the dependencies, follow
-up the instructions below.
-
 Note: For the `credit_default_prediction_report.Rmd` to run, you need to
 Specify that {reticulate} should use the miniconda version of Python
 from this created environment in your `.Rprofile` file:
 
--   Type `usethis::edit_r_profile()` into the R console inside RStudio,
-    and an `.Rprofile` file from your HOME directory should open in
-    RStudio add this to your .Rprofile file:
+-   Type `usethis::edit_r_profile()` into the R console inside RStudio.
+    This would open `.Rprofile` file from HOME directory in RStudio. Add
+    this to your .Rprofile file replacing the path set before.:
     `Sys.setenv(RETICULATE_PYTHON = "path_to_miniconda's_python for credit_default_env")`
-    replacing the path set before.
 
--   In Windows, you need `\\` instead of a  to separate the directories,
-    for example your path should be like:
+-   In Windows, you need `\\` instead of a   to separate the
+    directories, for example your path should be like:
     `C:\\Users\\hp\\miniconda3\\envs\\credit_default_env\\python.exe`
 
-– Run the following commands at the command line/terminal from the root
-directory of this project:
+-   To make altair plots save in .png with conda environment in make
+    file, you need to install these extra dependencies on your
+    environment using below commands `npm install -g vega`
+    `npm install -g vega-cli vega-lite canvas`
 
-    # download data
-    python src/download_data.py --out_type=csv --url=https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls --out_file=data/raw/default_credit_card_clients.csv
+After the environment is set up, follow up the instructions below.
 
-    # clean data  
-    python src/clean_split_data.py --input_path="data/raw/default_credit_card_clients.csv" --out_dir="data/preprocessed"
+– To replicate the analysis, run the following command at the command
+line/terminal from the root directory of this project:
 
-    # transform data
-    python src/transform_data.py --input_path="data/preprocessed/cleaned_data.csv" --out_dir="data/preprocessed"
+`make all`
 
-    # run eda report
-    jupyter lab src/credit_default_eda.ipynb
+To reset the repo to a clean state, with no intermediate or results
+files, run the following command at the command line/terminal from the
+root directory of this project:
 
-    # create exploratory data analysis figure and write to file 
-    python src/credit_default_eda.py --file_path="data/preprocessed/cleaned_train.csv" --out_dir="results/"
-    python src/random_search_eda.py --file_path="results/random_search_cv_scores.csv" --out_dir="results/"
-
-    # tune model
-    python src/credit_default_predict_model.py --train_path="data/preprocessed/transformed_train.csv" --test_path="data/preprocessed/transformed_test.csv" --out_dir="results/"
-
-    # render final report
-    Rscript -e "rmarkdown::render('doc/credit_default_prediction_report.Rmd', output_format = 'html_document')"
+`make clean`
 
 ## Dependencies
 
@@ -124,6 +113,7 @@ directory of this project:
 -   graphviz
 -   python-graphviz
 -   pip
+-   make
 -   seaborn
 -   eli5
 -   imbalanced-learn

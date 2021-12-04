@@ -9,6 +9,9 @@ Lianna Hovhannisyan, Arushi Ahuja, Taiwo Owoseni, Karanpreet Kaur
     -   [Data](#data)
     -   [Analysis](#analysis)
     -   [Results & Discussion](#results--discussion)
+    -   [Overview of the method](#overview-of-the-method)
+    -   [The evaluation of the method](#the-evaluation-of-the-method)
+    -   [Discussion](#discussion)
 -   [References](#references)
 
 ## Summary
@@ -25,16 +28,20 @@ made a default payment the following month), as opposed to Type II error
 by the client), we are using *f*1 as our primary scoring metric. Our
 model performed fairly well on test data set with the *f*1 score being
 0.528. Our recall and precision rate are moderately high, being 0.587,
-0.48 respectively. The given scores are consistent with the train data
-set scores, thus we can say that the model is generalizable on unseen
-data. However, the scores are not high, and our model is error prompt.
-The model can correctly classify default payments roughly half of the
-time. The value of incorrectly identifying default or no default can
-cause a lot of money and reputation to the company, thus we recommend
-continuing study to improve this prediction model before it is put into
-production in the credit companies. Some of the improvement research
-topics can be feature engineering, bigger dataset collected from other
-countries (China, Canada, Japan).
+0.48 respectively. We would also report average_precision_score (AP) as
+it summarizes a precision-recall curve as the weighted mean of
+precisions achieved at each threshold, with the increase in recall from
+the previous threshold used as the weight and that would tell us that
+the overall model performance on imbalance dataset. The given scores are
+consistent with the train data set scores, thus we can say that the
+model is generalizable on unseen data. However, the scores are not high,
+and our model is error prompt. The model can correctly classify default
+payments roughly half of the time. The value of incorrectly identifying
+default or no default can cause a lot of money and reputation to the
+company, thus we recommend continuing study to improve this prediction
+model before it is put into production in the credit companies. Some of
+the improvement research topics can be feature engineering, bigger
+dataset collected from other countries (China, Canada, Japan).
 
 ## Introduction
 
@@ -109,93 +116,157 @@ perform the analysis and create the report can be found
 ### Results & Discussion
 
 In order to understand which features play an important role in the
-decision making and prediction within the model, we will look at the
-distributions of each feature individually either through bar graphs or
-histograms depending on the type of feature, and we will also be
-grouping them by the 2 target classes. Here the target classes are: “1”
-if default payment was made meaning that the client did not pay their
-credit on time, and “0” if no default payment was made meaning that the
-client did pay their credit on time. It is important to note that
-because this is the preliminary analysis before any transformations or
-model making, the visualizations do not take into account the class
-imbalance and so while we may come to conclusions about the features
-right now, they may contain a certain amount of bias to them.
+decision making and prediction within the model, we will be analyzing
+the correlations between features an also how they correlate to the
+target class. So that we can get the most accurate correlations, we are
+looking at the transformed data and eliminating any sort of initial
+biases in the data. Note that correlation numbers range anywhere between
+-1 to 1, here we will be calculation correlation numbers between either
+two feature or a feature and a target class. Negative numbers indicate a
+negative correlation, which means that if we are looking the correlation
+number between two features, it could be that if one feature value
+increases the other feature value decreases (and vice versa), -1 is
+highest possible negative correlation. Similarly positive numbers
+indicate a positive correlation, which means that if we are looking the
+correlation number between two features, it could be that if one feature
+increases the other feature also increases (and vice versa), +1 is the
+highest possible positive correlation. Lastly, zero represent no
+correlation between the two variables. It is important to note that we
+don’t exactly know which direction the correlation is pointing, however
+in our case we are more concerned with seeing which features would play
+a higher role in the decision making of the model.
 
-For the numerical features, we will be looking at their histograms and
-will be mainly focusing on how the target classes overlap with each
-other for each feature. Less overlap between target classes in general
-would indicate to creating a more realistic model, this is because the
-model would be able to easily classify the target classes given the
-difference in values of the features for each target class. Furthermore,
-this would give us an idea of which features we could potentially give
-more importance to and exactly how to define our predictive model. From
-Figure 1, we see that most features show very little overlap, telling us
-that right now it would not be wise to remove any feature from the
-analysis.
+Figure 1 plots the correlation heat map, here there are two major
+observations:
 
-<img src="../results/histogram_numeric_feat.png" title="Figure 1. Comparison of distributions for the numerical features of the training data set grouped by target classes" alt="Figure 1. Comparison of distributions for the numerical features of the training data set grouped by target classes" width="100%" style="display: block; margin: auto;" />
+1.  We see high positive correlations among the `BILL_AMT` features,
+    those features represent the bill amount for each month for 6 months
+    going from April to September, 2005 (where `BILL_AMT1` represents
+    bill amount for April). This positive correlation can indicate to
+    two things: higher bill amounts in a month would most likely lead to
+    higher amounts in the next month, and secondly those higher amounts
+    in the next month can be associated with client’s bill amounts
+    accumulating because they haven’t made their payments on time.
 
-For the ordinal and categorical features such as sex, education, and
-whether a client has payed their past month credit or not, instead of
-looking at the histograms, we instead will be looking at the bar graphs
-in order to understand the proportions of the target classes in each of
-the categories in all features. Since the categories for the features
-are classified by numbers, here I will provide an explanation for what
-the numbers represent in each feature:
+2.  We see that most of the feature firstly have low correlation in
+    general with the target feature. Additionally, most of them show a
+    negative correlation with the target feature.
 
--   SEX: 1 depicts male and 2 depicts female.
--   PAY_0 - PAY_6 : -2 represents balance paid in full and no
-    transactions in this period (we may refer to this credit card
-    account as having been ‘inactive’ this period).-1 represents pay
-    duly, but customer’s account has a positive balance at end of period
-    due to recent transactions for which payment has not yet come due. 0
-    represents customer paid the minimum due amount, but not the entire
-    balance. And finally, positive numbers represent payment delays by
-    those many number of months, so for example PAY_0 is 1, then the
-    payment is delayed by one month.
--   MARRIAGE: 1 depicts married, 2 depicts single and 3 depicts others.
--   EDUCATION: 1 depicts graduate school, 2 depicts university, 3
-    depicts high school and 4 depicts others.
+<center>
 
-On looking at the bar graphs in Figure 2, it is hard to say which
-features could play a more important role in the predictions, in general
-we see that proportions for “0” target class are higher for each
-category in all features.
+![](../results/correlation_heatmap_plot.png)
 
-<img src="../results/categorical_feat_graph.png" title="Figure 2. Comparison of proportions for the categorical and ordinal features of the training data set grouped by target classes" alt="Figure 2. Comparison of proportions for the categorical and ordinal features of the training data set grouped by target classes" width="100%" style="display: block; margin: auto;" />
+Figure 1. Correlation heatmap with features and target class
 
-The Logistic regression prediction model works fine on test data, with
-test accuracy of **0.819** but as our project focuses on predicting the
-clients with credit defaults and thus it’s very crucial for our model to
-predict Defaulter class correctly and minimize the misclassification
-errors. To identify the actual errors made by the model,we are checking
-metrics **recall, precision and f1 score** for **Defaulter class** and
-our model has these metrics values as **0.362, 0.651, 0.465**
-respectively. It can be observed that the recall for Defaulter class is
-significantly less than the precision and hence f1-score also reflects
-that. The detailed classification of classes in terms of numbers can be
-seen below.
+</center>
 
-<img src="../results/confusion_matrix_default.png" title="Figure 3. Confusion matrix of Logistic Regression model with default parameters" alt="Figure 3. Confusion matrix of Logistic Regression model with default parameters" style="display: block; margin: auto;" />
+### Overview of the method
+
+As mentioned previously, our data set consists of 30000 observations,
+which we consider as the large enough sample for using Logistic
+Regression as the primary method. In addition, the features, that are
+being used to train the model on, are relevant to the target class, thus
+Logistic Regression we will give us the results that are reliable, and
+easy to interpret to stakeholders.
+
+Before starting the tuning, we splited our data set into train and test
+sets. 20% of the observations will be included in the test data and 80%
+in the train data set. The split will ensure the needed balance for
+having enough data for the fitting and cross validation set, as well as
+large enough test data for the final affirmation of the model: more
+precisely, the train set will have 24000 observations, and test set
+6000. To have generalizable results, cross validation was carried out on
+the train set with 10 folds. The best hyperparameters (C and
+class_weight) were chosen by randomized search.
+
+### The evaluation of the method
+
+With the accuracy as the scoring metric, the Logistic regression
+prediction model produced good results, with the test accuracy of
+**0.819**. However, as our project focuses on predicting the clients
+with credit defaults, it’s crucial for our model to predict Defaulter
+class correctly and minimize the misclassification error. To identify
+the actual errors made by the model, we checked the values of metrics
+**recall, precision and f1 score** for **Defaulter class**: **recall =
+0.362, precision = 0.651, f1_score = 0.465**. It can be observed that
+the recall for Defaulter class is significantly less than the precision.
+The detailed classification of classes in terms of numbers can be seen
+below. The **AP score** is **0.374** which is every low for this case
+due to large number of misclassifications for Defaulter class
+(i.e. higher FN’s). The detailed classification of classes in terms of
+numbers can be seen below.
+
+<center>
+
+![](../results/confusion_matrix_default.png)<!-- -->
+
+Figure 2. Confusion matrix of Logistic Regression model with default
+parameters
+
+</center>
 
 The reason for such large number of Type II errors (False negatives)
-could be due to class imbalance in dataset. So, to identify and minimize
-the effect of imbalance, we further improved our model by the recall for
-the model, we perfomed hyperparameter tuning on Logistic regression
-model on hyperparameters (C and class_weight) using RandomizedSearchCV.
-The model returned by random search trains on best parameters and hence
-we used this model for scoring metrics. The random search gives **test
-accuracy score** of **0.772** and metrics **recall, precision and
-f1-score** for **Defaulter class** are **0.587, 0.48, 0.528**
-respectively. Through hyperparameter tuning, we are able to achieve
-higher recall and f1-score. There is always some trade-off between
-recall and precision and hence the precision is lower for the tuned
-model. The correct amount of trade-off or accepted recall and precision
-score is somewhat business dependent as these scores highly impact the
-business costs and strategies. The detailed classification of target can
-be seen below:
+could be due to class imbalance in data set. So, to identify and
+minimize the effect of imbalance, we choose to change the training
+procedure by taking advantage of sklearn parameter called class_weight.
+class_weight = ‘balanced’ gives higher weight to minority class (1) and
+lower weight to majority class (0) to balance out their representation
+in the dataset. The hyperparameter tuning was performed on Logistic
+regression model for C and class_weight hyperparameters using
+RandomizedSearchCV. “C” hyperparameter defines the complexity of the
+model: higher value of C means a more complex model. Since C value
+determines the log loss on dataset , we have choosen values \[0.001,
+0.01, 0.1, 1, 10, 100, 1000\] for hyperparameter C and \[‘None’,
+‘balanced’\] for class_weight. The Figure 3 gives a glimpse on how we
+went about finding the best hyperparameters for the Logistic Regression
+model. After carrying out Random Search cross validation with 10 folds,
+Figure 3 shows the different combination of the two hyperparamters along
+with the scores of those models. We see that the model provides the best
+score with “class weights” equal to “balanced” and “C” equal to 0,1. The
+returned best parameters were used to evaluate the model on the test
+data.
 
-<img src="../results/confusion_matrix_tuned_model.png" title="Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters" alt="Figure 4. Confusion matrix of tuned Logistic Regression model with hyperparameters" style="display: block; margin: auto;" />
+<center>
+
+![](../results/random_search.png)<!-- -->
+
+Figure 3. Comparison of scores while tuning hyperparamters for the
+Logistic Regression model
+
+</center>
+
+The random search gives **test accuracy score** of **0.772** and metrics
+**recall, precision and f1-score** for **Defaulter class** are **0.587,
+0.48, 0.528** respectively. Thus, through hyperparameter tuning, we were
+able to achieve higher recall and f1-score. However, there is always
+trade-off between recall and precision, as evidenced with the lower
+precision score for the tuned model. The **AP score** is **0.372** which
+is even lower than we received earlier but since we want to minimize the
+misclassifications on Defaulter class (FN), the False positives would
+increase and hence average precision would decrease. There is always a
+tradeoff between recall and precision and the correct amount of
+trade-off or accepted recall and precision score is somewhat business
+dependent as these scores highly impact the business costs and
+strategies. The detailed classification of target can be seen below:
+
+<center>
+
+![](../results/confusion_matrix_tuned_model.png)<!-- -->
+
+Figure 4. Confusion matrix of tuned Logistic Regression model with
+hyperparameters
+
+</center>
+
+To conclude, even though the scores are not very high, we believe our
+model is generalizable for the unseen data. However, given the
+importance for the companies to have high rates for predicting the
+Default class, we acknowledge that our model may not be the best suit
+for the most companies.In future, as we grow our knowledge on new
+techniques of handling such datasets, we will keep contributing to this
+project for improvement.
+
+### Discussion
 
 To further improve this model in future with hopes that it will be used
 for credit companies, there are several things we can suggest. Firstly,
@@ -207,22 +278,7 @@ classification algorithms such as Random Forest, with the hopes of
 getting better score and less error pron model. Finally, we will collect
 more data from other countries such as China, Canada, Japan to have
 bigger understanding of the trends in default credit payment and train
-our model with larger dataset.
-
-Figure 3 gives a glimpse on how we went about finding the best
-hyperparameters for the Logistic Regression model. Here the 2
-hyperparameter we are finding values for are: - “C” which defines the
-complexity of the model. Higher value of C means a more complex model. -
-“class weights” which can be only two values “balanced” or None . If
-“class weights” is “balanced” then that means we are treating all
-features equally in the decision making process during prediction.
-
-After carrying out Random Search cross validation with 10 folds, Figure
-3 shows the different combination of the two hyperparamters along with
-the scores of those models. We see that the model provides the best
-score with “class weights” equal to “balanced” and “C” equal to 0.1.
-
-<img src="../results/random_search.png" title="Figure 5. Comparison of scores while tuning hyperparamters for the Logistic Regression model" alt="Figure 5. Comparison of scores while tuning hyperparamters for the Logistic Regression model" width="60%" style="display: block; margin: auto;" />
+our model with larger data set.
 
 ## References
 

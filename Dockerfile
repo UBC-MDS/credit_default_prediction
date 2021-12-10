@@ -23,23 +23,19 @@ RUN echo ‘export PATH=/opt/conda/bin:$PATH’ > /etc/profile.d/conda.sh && \
 ENV PATH /opt/conda/bin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/lib/R/lib/:${LD_LIBRARY_PATH}
 
-# install R packages
-RUN apt-get update -qq && install2.r --error \
-    --deps TRUE \
-    reticulate
+RUN conda install --quiet --yes \
+    'r-reticulate'
     
-RUN conda install -y pip && \
-    pip install mglearn && \
-    pip install psutil>=5.7.2
-    
+RUN conda install -c conda-forge altair_saver  
+
 # install python packages
 RUN pip install \
-    'altair==4.1.*'
-    'matplotlib==3.2.*' \
+    'ipykernel'\
+    'matplotlib>=3.2.2' \
     'scikit-learn==1.0.*' \
-    'pandas==1.3.*' \
+    'pandas>=1.3.*' \
     'numpy' \
-    'requests==2.24.*' \
+    'requests>=2.24.0' \
     'graphviz'\
     'make'\
     'pip'\
@@ -47,7 +43,6 @@ RUN pip install \
     'seaborn'\
     'imbalanced-learn' \
     'ipython>=7.15' \
-    'altair_saver' \
     'docopt==0.6.2' \
     'openpyxl==3.0.9' \
     'xlrd==2.0.1' \

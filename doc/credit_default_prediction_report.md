@@ -154,7 +154,7 @@ observations:
 
 <center>
 
-![](../results/correlation_heatmap_plot.png)
+![](../results/eda/correlation_heatmap_plot.png)
 
 Figure 1. Correlation heatmap with features and target class
 
@@ -228,7 +228,7 @@ data.
 
 <center>
 
-![](../results/random_search.png)<!-- -->
+![](../results/eda/random_search.png)<!-- -->
 
 Figure 3. Comparison of scores while tuning hyperparamters for the
 Logistic Regression model

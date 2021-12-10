@@ -11,10 +11,6 @@ bibliography: default_prediction_refs.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(knitr)
-library(tidyverse)
-#library(kableExtra)
-library(tidyverse)
 library(reticulate)
 conda_list()
 #use_condaenv("credit_default_env", required = TRUE)
@@ -32,8 +28,8 @@ test_df = pandas.read_csv('../data/preprocessed/transformed_test.csv')
 X_test = test_df.drop(columns = ['DEFAULT_PAYMENT_NEXT_MONTH'])
 y_test = test_df['DEFAULT_PAYMENT_NEXT_MONTH']
 
-default_model = pickle.load(open('../results/default_lr_model.pkl', 'rb'))
-final_tuned_model = pickle.load(open('../results/final_tuned_model.pkl', 'rb'))
+default_model = pickle.load(open('../results/model/default_lr_model.pkl', 'rb'))
+final_tuned_model = pickle.load(open('../results/model/final_tuned_model.pkl', 'rb'))
 
 y_pred_default = default_model.predict(X_test)
 y_pred_tuned = final_tuned_model.predict(X_test)
@@ -107,7 +103,7 @@ Figure 1 plots the correlation heat map, here there are two major observations:
 
 <center>
 
-![](../results/correlation_heatmap_plot.png)
+![](../results/eda/correlation_heatmap_plot.png)
 
 Figure 1. Correlation heatmap with features and target class
 
@@ -142,7 +138,7 @@ After carrying out Random Search cross validation with 10 folds, Figure 3 shows 
 
 <center>
 
-![](../results/random_search.png)<!-- -->
+![](../results/eda/random_search.png)<!-- -->
 
 Figure 3. Comparison of scores while tuning hyperparamters for the Logistic Regression model
 

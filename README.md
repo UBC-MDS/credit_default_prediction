@@ -11,7 +11,10 @@ default payment next month or not.
 
 In this project, we built a classification model using Logistic
 Regression to predict if credit account holders will make a default
-payment next month. The model was trained on features that hold
+payment next month. Default payment refers to a situation when a borrower
+is unable to make timely payments, misses payments,
+or avoids or stops making payments on interest or principal owed.The model 
+was trained on features that hold
 information about the client’s last 6 months bill and payment history,
 as well as several other characteristics such as: age, marital status,
 education, and gender. Overall, we are more interested in minimizing

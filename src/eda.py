@@ -4,7 +4,7 @@
 '''This script generates all the EDA diagrams used in the final report 
    before model generation
 
-Usage: credit_card_default_eda.py --file_path=<file_path> --out_dir=<out_dir>
+Usage: eda.py --file_path=<file_path> --out_dir=<out_dir>
 
 Options:
 --file_path=<file_path>   Path to the data file

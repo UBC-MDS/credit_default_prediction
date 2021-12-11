@@ -67,6 +67,8 @@ of next month column: labeled 1 (client will make a default) and 0
 The final report can be found
 [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/report.html).
 
+The milestone-4 release can be found [here](https://github.com/UBC-MDS/credit_default_prediction/tree/v1.0.0)
+
 ## Usage
 
 – To replicate the analysis, please clone this GitHub repository.

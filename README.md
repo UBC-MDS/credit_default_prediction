@@ -67,9 +67,6 @@ of next month column: labeled 1 (client will make a default) and 0
 The final report can be found
 [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/report.html).
 
-The link to the Milestone 3 release can be found
-[here](https://github.com/UBC-MDS/credit_default_prediction/releases/tag/0.1.1).
-
 ## Usage
 
 – To replicate the analysis, please clone this GitHub repository.
@@ -111,9 +108,9 @@ JupyterLab installed (e.g. base).
 
     conda install nb_conda_kernels
 
-Note: For the `report.Rmd` to run, you need to
-Specify that {reticulate} should use the miniconda version of Python
-from this created environment in your `.Rprofile` file:
+Note: For the `report.Rmd` to run, you need to Specify that {reticulate}
+should use the miniconda version of Python from this created environment
+in your `.Rprofile` file:
 
 -   Type `usethis::edit_r_profile()` into the R console inside RStudio.
     This would open `.Rprofile` file from HOME directory in RStudio. Add

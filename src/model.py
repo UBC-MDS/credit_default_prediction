@@ -6,7 +6,7 @@
 """Fits a logistic regression model on the pre-processed training data from the default of credit card client data (from https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls)
 Saves the model as a pkl file.
 
-Usage: src/credit_default_predict_model.py --train_path=<train_path> --test_path=<test_path> --out_dir=<out_dir>
+Usage: src/model.py --train_path=<train_path> --test_path=<test_path> --out_dir=<out_dir>
 
 Options:
 --train_path=<train_path>        Path (including filename) to training data (which needs to be saved as a .csv file)

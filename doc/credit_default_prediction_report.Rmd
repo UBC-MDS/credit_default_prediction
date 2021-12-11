@@ -25,8 +25,8 @@ test_df = pandas.read_csv('../data/preprocessed/transformed_test.csv')
 X_test = test_df.drop(columns = ['DEFAULT_PAYMENT_NEXT_MONTH'])
 y_test = test_df['DEFAULT_PAYMENT_NEXT_MONTH']
 
-default_model = pickle.load(open('../results/default_lr_model.pkl', 'rb'))
-final_tuned_model = pickle.load(open('../results/final_tuned_model.pkl', 'rb'))
+default_model = pickle.load(open('../results/model/default_lr_model.pkl', 'rb'))
+final_tuned_model = pickle.load(open('../results/model/final_tuned_model.pkl', 'rb'))
 
 y_pred_default = default_model.predict(X_test)
 y_pred_tuned = final_tuned_model.predict(X_test)
@@ -100,7 +100,7 @@ Figure 1 plots the correlation heat map, here there are two major observations:
 
 <center>
 
-![](../results/correlation_heatmap_plot.png)
+![](../results/eda/correlation_heatmap_plot.png)
 
 Figure 1. Correlation heatmap with features and target class
 
@@ -137,14 +137,14 @@ After carrying out Random Search cross validation with 10 folds, Figure 3 shows 
 
 <center>
 
-![](../results/random_search.png)<!-- -->
+![](../results/eda/random_search.png)<!-- -->
 
 Figure 3. Comparison of scores while tuning hyperparamters for the Logistic Regression model
 
 </center>
 
 
-The random search gives **test accuracy score** of **`r py$final_tuned_model_score`** and metrics **recall, precision and f1-score** for **Defaulter class** are **`r py$final_tuned_classification_recall`,  `r py$final_tuned_classification_precision`, `r py$final_tuned_classification_f1_score`** respectively. Thus, through hyperparameter tuning, we were able to achieve higher recall and f1-score. However, there is always trade-off between recall and precision, as evidenced with the lower precision score for the tuned model. The **AP score** is **`r py$final_tuned_classification_average_precision`** which is even lower than we received earlier but since we want to minimize the misclassifications on Defaulter class (FN), the False positives would increase and hence average precision would decrease. There is always a tradeoff between recall and precision and the correct amount of trade-off or accepted recall and precision score is somewhat business dependent as these scores highly impact the business costs and strategies. The detailed classification of target can be seen below:
+The model from random search gives **test accuracy score** of **`r py$final_tuned_model_score`** and metrics **recall, precision and f1-score** for **Defaulter class** are **`r py$final_tuned_classification_recall`,  `r py$final_tuned_classification_precision`, `r py$final_tuned_classification_f1_score`** respectively. Thus, through hyperparameter tuning, we were able to achieve higher recall and f1-score. However, there is always trade-off between recall and precision, as evidenced with the lower precision score for the tuned model. The **AP score** is **`r py$final_tuned_classification_average_precision`** which is even lower than we received earlier but since we want to minimize the misclassifications on Defaulter class (FN), the False positives would increase and hence average precision would decrease. There is always a tradeoff between recall and precision and the correct amount of trade-off or accepted recall and precision score is somewhat business dependent as these scores highly impact the business costs and strategies. The detailed classification of target can be seen below:
 
 ```{python Save confusion_matrix_tuned, include=FALSE}
 conf_matrix_tuned.plot()

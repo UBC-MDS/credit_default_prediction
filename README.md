@@ -11,29 +11,41 @@ default payment next month or not.
 
 In this project, we built a classification model using Logistic
 Regression to predict if credit account holders will make a default
-payment next month. Default payment refers to a situation when a borrower
-is unable to make timely payments, misses payments,
-or avoids or stops making payments on interest or principal owed. The model 
-was trained on features that hold
-information about the client’s last 6 months bill and payment history,
-as well as several other characteristics such as: age, marital status,
-education, and gender. Overall, we are more interested in minimizing
-Type \| error (predicting no default payment, when in reality the client
-made a default payment the following month), as opposed to Type \|\|
-error (predicting default payment, when in reality no default payment
-was made by the client), we are using *f*1 as our primary scoring
-metric. Our model performed fairly well on test data set with the *f*1
-score being \~0.53. Our recall and precision rate are moderately high,
-being \~0.48, \~0.59 respectively. The given scores are consistent with
-the train data set scores, thus we can say that the model is
-generalizable on unseen data. However, the scores are not high, and our
-model is error prompt. The model can correctly classify default payments
-roughly half of the time. The value of incorrectly identifying default
-or no default can cause a lot of money and reputation to the company,
-thus we recommend continuing study to improve this prediction model
-before it is put into production in the credit companies. Some of the
-improvement research topics can be feature engineering, bigger dataset
-collected from other countries (China, Canada, Japan).
+payment next month. Default payment refers to a situation when a
+borrower, on interest or principal owed, is unable to make timely
+payments, misses payments, or avoids/ stops making payments.
+
+The model was trained on features that hold information about the
+client’s last 6 months bill and payment history, as well as several
+other characteristics such as: age, marital status, education, and
+gender. We consider the positive class to be default (client made a
+default payment). Overall, we are more interested in minimizing Type I
+error (predicting no default payment, when in reality the client made a
+default payment the following month), as opposed to Type II error
+(predicting default payment, when in reality no default payment was made
+by the client). However, given the fact that for creditors it is at
+upmost importance to have as minimal error prompt model as possible, we
+will use *f*1 as our primary scoring metric. *f*1 score is the harmonic
+mean of recall (shows how many among all positive examples are correctly
+identified) and precision (shows how many among the positive examples
+are actually positive) score, thus providing a good idea about both
+scores.
+
+Our model’s test *f*1 score is \~0.53 with recall and precision rate
+being \~0.48, \~0.59 respectively. We also report
+average_precision_score (AP) as it summarizes a precision-recall curve:
+the weighted mean of precision achieved at each threshold, with the
+increase in recall from the previous threshold used as the weight. This
+score tells us the overall model performance on imbalance dataset.
+Overall, we conclude that the model can correctly classify default
+payments roughly half of the time.
+
+The value of incorrectly identifying default or no default can cause a
+lot of money and reputation to the company, we recommend continuing
+study to improve this prediction model before it is put into production
+in the credit companies. Some of the improvement research topics can be
+feature engineering, bigger dataset collected from other countries
+(China, Canada, Japan).
 
 The data set used in the project is created by Yeh, I. C., and Lien, C.
 H (Yeh and Lien 2009), and made publicly available for download in UCI
@@ -53,32 +65,39 @@ of next month column: labeled 1 (client will make a default) and 0
 ## Report
 
 The final report can be found
-[here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.html).
+[here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/report.html).
 
 The link to the Milestone 3 release can be found
 [here](https://github.com/UBC-MDS/credit_default_prediction/releases/tag/0.1.1).
 
 ## Usage
 
-To replicate the analysis, please clone this GitHub repository.
+– To replicate the analysis, please clone this GitHub repository.
 
 There are two suggested ways to run this analysis:
 
-#### 1. Using Docker
+### Method 1. Using Docker
 
-note - the instructions in this section also depends on running this in a unix shell (e.g., terminal or Git Bash)
+To replicate the analysis, install
+[Docker](https://www.docker.com/get-started). Then run the following
+command at the command line/terminal from the root directory of this
+project:
 
-To replicate the analysis, install Docker. Then clone this GitHub repository and run the following command at the command line/terminal from the root directory of this project:
+To replicate the analysis, install Docker. Then clone this GitHub
+repository and run the following command at the command line/terminal
+from the root directory of this project:
 
-`docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction aahuja28/credit_default_prediction make -C /home/rstudio/credit_default_prediction all`
+    docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction aahuja28/credit_default_prediction make -C /home/rstudio/credit_default_prediction all
 
-To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/terminal from the root directory of this project:
+To reset the repo to a clean state, with no intermediate or results
+files, run the following command at the command line/terminal from the
+root directory of this project:
 
-`docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction aahuja28/credit_default_prediction make -C /home/rstudio/credit_default_prediction clean`
+    docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction aahuja28/credit_default_prediction make -C /home/rstudio/credit_default_prediction clean
 
-#### 2. Without using Docker
+### 2. Without using Docker
 
-–   To set up the necessary packages for running the project, download the
+– To set up the necessary packages for running the project, download the
 environment file from
 [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/environment.yaml):
 hit “Raw” and then Ctrl/Cmnd + S to save it, or copy paste the content.
@@ -87,7 +106,7 @@ environment file you just downloaded:
 
     conda env create --file environment.yaml
 
-–   Run the following command from the environment where you have
+– Run the following command from the environment where you have
 JupyterLab installed (e.g. base).
 
     conda install nb_conda_kernels
@@ -101,7 +120,7 @@ from this created environment in your `.Rprofile` file:
     this to your .Rprofile file replacing the path set before.:
     `Sys.setenv(RETICULATE_PYTHON = "path_to_miniconda's_python for credit_default_env")`
 
--   In Windows, you need `\\` instead of a   to separate the
+-   In Windows, you need `\\` instead of a ` ` to separate the
     directories, for example your path should be like:
     `C:\\Users\\hp\\miniconda3\\envs\\credit_default_env\\python.exe`
 
@@ -122,6 +141,10 @@ files, run the following command at the command line/terminal from the
 root directory of this project:
 
 `make clean`
+
+## Makefile’s dependency graph
+
+<img src="Makefile.png" title="A caption" alt="A caption" width="100%" />
 
 ## Dependencies
 

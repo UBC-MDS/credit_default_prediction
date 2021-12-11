@@ -1,5 +1,9 @@
+#Author: Arushi Ahuja
+
+#Using docker image jupyter/r-notebook as the base
 FROM jupyter/r-notebook
 
+#installing certain python packages using conda install
 RUN conda install --yes docopt=0.6.*  \
                     pandas=1.3.*  \
                     scikit-learn=1.0.* \
@@ -7,7 +11,7 @@ RUN conda install --yes docopt=0.6.*  \
                     altair_data_server=0.4.* \
                     altair_saver=0.5.*
                     
-
+#installing certain python packages using pip install
 RUN pip install \
     'ipykernel'\
     'matplotlib>=3.2.2' \
@@ -26,5 +30,6 @@ RUN pip install \
     'mglearn' \
     'psutil>=5.7.2'
 
+#installing reticulate package using conda install 
 RUN conda install --quiet --yes \
     'r-reticulate'

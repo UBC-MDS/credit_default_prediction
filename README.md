@@ -73,7 +73,7 @@ The final report can be found
 
 There are two suggested ways to run this analysis:
 
-### Method 1. Using Docker
+### 1. Using Docker
 
 To replicate the analysis, install
 [Docker](https://www.docker.com/get-started). Then run the following

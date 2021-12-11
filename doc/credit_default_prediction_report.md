@@ -211,18 +211,26 @@ minimize the effect of imbalance, we choose to change the training
 procedure by taking advantage of sklearn parameter called class_weight.
 class_weight = ‘balanced’ gives higher weight to minority class (1) and
 lower weight to majority class (0) to balance out their representation
-in the dataset. The hyperparameter tuning was performed on Logistic
-regression model for C and class_weight hyperparameters using
-RandomizedSearchCV. “C” hyperparameter defines the complexity of the
-model: higher value of C means a more complex model. Since C value
-determines the log loss on dataset , we have choosen values \[0.001,
-0.01, 0.1, 1, 10, 100, 1000\] for hyperparameter C and \[‘None’,
-‘balanced’\] for class_weight. The Figure 3 gives a glimpse on how we
-went about finding the best hyperparameters for the Logistic Regression
-model. After carrying out Random Search cross validation with 10 folds,
-Figure 3 shows the different combination of the two hyperparamters along
-with the scores of those models. We see that the model provides the best
-score with “class weights” equal to “balanced” and “C” equal to 0,1. The
+in the dataset.
+
+Hyperparameter tuning was performed on the Logistic regression model for
+C and class_weight hyperparameters using RandomizedSearchCV. C
+hyperparameter defines the complexity of the model: higher value of C
+means a more complex model. Since C value determines the log loss on the
+dataset, we have will be testing out values \[0.001, 0.01, 0.1, 1, 10,
+100, 1000\] for C, and for class_weight hyperparamter we will be testing
+out values \[‘None’, ‘balanced’\]. It is important to note that there
+are some limitations to using RandomizedSearchCV as opposed to other
+methods to find the best hyperparamters, one such limitation is that it
+may not necessarily find the best hyperparamters, it is not exhaustive
+and will only look at a few different combinations. However,
+RandomizedSearchCV is much more faster and flexible with large datasets
+like ours.
+
+After carrying out Random Search cross validation with 10 folds, Figure
+3 shows the different combination of the two hyperparamters along with
+the scores of those models. We see that the model provides the best
+score with class weights equal to “balanced” and C equal to 0.1. These
 returned best parameters were used to evaluate the model on the test
 data.
 
@@ -235,18 +243,18 @@ Logistic Regression model
 
 </center>
 
-The random search gives **test accuracy score** of **0.772** and metrics
-**recall, precision and f1-score** for **Defaulter class** are **0.587,
-0.48, 0.528** respectively. Thus, through hyperparameter tuning, we were
-able to achieve higher recall and f1-score. However, there is always
-trade-off between recall and precision, as evidenced with the lower
-precision score for the tuned model. The **AP score** is **0.372** which
-is even lower than we received earlier but since we want to minimize the
-misclassifications on Defaulter class (FN), the False positives would
-increase and hence average precision would decrease. There is always a
-tradeoff between recall and precision and the correct amount of
-trade-off or accepted recall and precision score is somewhat business
-dependent as these scores highly impact the business costs and
+The model from random search gives **test accuracy score** of **0.772**
+and metrics **recall, precision and f1-score** for **Defaulter class**
+are **0.587, 0.48, 0.528** respectively. Thus, through hyperparameter
+tuning, we were able to achieve higher recall and f1-score. However,
+there is always trade-off between recall and precision, as evidenced
+with the lower precision score for the tuned model. The **AP score** is
+**0.372** which is even lower than we received earlier but since we want
+to minimize the misclassifications on Defaulter class (FN), the False
+positives would increase and hence average precision would decrease.
+There is always a tradeoff between recall and precision and the correct
+amount of trade-off or accepted recall and precision score is somewhat
+business dependent as these scores highly impact the business costs and
 strategies. The detailed classification of target can be seen below:
 
 <center>

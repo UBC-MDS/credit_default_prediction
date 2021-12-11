@@ -12,9 +12,6 @@ bibliography: default_prediction_refs.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(reticulate)
-conda_list()
-#use_condaenv("credit_default_env", required = TRUE)
-#py_config()
 ```
 
 ```{python load model results, include=FALSE}
@@ -133,8 +130,10 @@ Figure 2. Confusion matrix of Logistic Regression model with default parameters
 </center>
 
 The reason for such large number of Type II errors (False negatives) could be due to class imbalance in data set. So, to identify and minimize the effect of imbalance, we choose to change the training procedure by taking advantage of sklearn parameter called class_weight. class_weight = 'balanced' gives higher weight to minority class (1) and lower weight to majority class (0) to balance out their representation in the dataset.
-The hyperparameter tuning was performed on Logistic regression model for C and class_weight hyperparameters using RandomizedSearchCV. “C” hyperparameter defines the complexity of the model: higher value of C means a more complex model. Since C value determines the log loss on dataset , we have choosen values [0.001, 0.01, 0.1, 1, 10, 100, 1000] for hyperparameter C and ['None', 'balanced'] for class_weight. The Figure 3 gives a glimpse on how we went about finding the best hyperparameters for the Logistic Regression model.
-After carrying out Random Search cross validation with 10 folds, Figure 3 shows the different combination of the two hyperparamters along with the scores of those models. We see that the model provides the best score with “class weights” equal to “balanced” and “C” equal to 0,1. The returned best parameters were used to evaluate the model on the test data.
+
+Hyperparameter tuning was performed on the Logistic regression model for C and class_weight hyperparameters using RandomizedSearchCV. C hyperparameter defines the complexity of the model: higher value of C means a more complex model. Since C value determines the log loss on the dataset, we have will be testing out values [0.001, 0.01, 0.1, 1, 10, 100, 1000] for C, and for class_weight hyperparamter we will be testing out values ['None', 'balanced']. It is important to note that there are some limitations to using RandomizedSearchCV as opposed to other methods to find the best hyperparamters, one such limitation is that it may not necessarily find the best hyperparamters, it is not exhaustive and will only look at a few different combinations. However, RandomizedSearchCV is much more faster and flexible with large datasets like ours. 
+
+After carrying out Random Search cross validation with 10 folds, Figure 3 shows the different combination of the two hyperparamters along with the scores of those models. We see that the model provides the best score with class weights equal to “balanced” and C equal to 0.1.  These returned best parameters were used to evaluate the model on the test data.
 
 <center>
 

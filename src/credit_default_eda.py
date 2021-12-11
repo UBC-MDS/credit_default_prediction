@@ -10,7 +10,7 @@ Options:
 --file_path=<file_path>   Path to the data file
 --out_dir=<out_dir>       Path (directory) to save the images
 '''
-
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -37,7 +37,11 @@ def main(file_path, out_dir):
   plt.figure(figsize=(15, 15))
   sns.set(font_scale=1)
   sns.heatmap(cor, annot=True, cmap=plt.cm.Blues)
-  plt.savefig(saving_to);
+  try:
+    plt.savefig(saving_to);
+  except:
+    os.makedirs(os.path.dirname(saving_to))
+    plt.savefig(saving_to);
   
 if __name__ == "__main__":
     main(opt["--file_path"], opt["--out_dir"])

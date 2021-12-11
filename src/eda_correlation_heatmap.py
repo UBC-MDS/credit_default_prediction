@@ -4,7 +4,7 @@
 '''This script generates the correlation heat map of the 
    transformed data
 
-Usage: credit_card_default_eda.py --file_path=<file_path> --out_dir=<out_dir>
+Usage: eda.py --file_path=<file_path> --out_dir=<out_dir>
 
 Options:
 --file_path=<file_path>   Path to the data file

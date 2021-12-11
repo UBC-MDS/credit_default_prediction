@@ -11,7 +11,10 @@ default payment next month or not.
 
 In this project, we built a classification model using Logistic
 Regression to predict if credit account holders will make a default
-payment next month. The model was trained on features that hold
+payment next month. Default payment refers to a situation when a borrower
+is unable to make timely payments, misses payments,
+or avoids or stops making payments on interest or principal owed. The model 
+was trained on features that hold
 information about the client’s last 6 months bill and payment history,
 as well as several other characteristics such as: age, marital status,
 education, and gender. Overall, we are more interested in minimizing
@@ -57,9 +60,25 @@ The link to the Milestone 3 release can be found
 
 ## Usage
 
-– To replicate the analysis, please clone this GitHub repository.
+To replicate the analysis, please clone this GitHub repository.
 
-– To set up the necessary packages for running the project, download the
+There are two suggested ways to run this analysis:
+
+#### 1. Using Docker
+
+note - the instructions in this section also depends on running this in a unix shell (e.g., terminal or Git Bash)
+
+To replicate the analysis, install Docker. Then clone this GitHub repository and run the following command at the command line/terminal from the root directory of this project:
+
+`docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction aahuja28/credit_default_prediction make -C /home/rstudio/credit_default_prediction all`
+
+To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/terminal from the root directory of this project:
+
+`docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction aahuja28/credit_default_prediction make -C /home/rstudio/credit_default_prediction clean`
+
+#### 2. Without using Docker
+
+–   To set up the necessary packages for running the project, download the
 environment file from
 [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/environment.yaml):
 hit “Raw” and then Ctrl/Cmnd + S to save it, or copy paste the content.
@@ -68,7 +87,7 @@ environment file you just downloaded:
 
     conda env create --file environment.yaml
 
-– Run the following command from the environment where you have
+–   Run the following command from the environment where you have
 JupyterLab installed (e.g. base).
 
     conda install nb_conda_kernels

@@ -111,7 +111,7 @@ JupyterLab installed (e.g. base).
 
     conda install nb_conda_kernels
 
-Note: For the `credit_default_prediction_report.Rmd` to run, you need to
+Note: For the `report.Rmd` to run, you need to
 Specify that {reticulate} should use the miniconda version of Python
 from this created environment in your `.Rprofile` file:
 

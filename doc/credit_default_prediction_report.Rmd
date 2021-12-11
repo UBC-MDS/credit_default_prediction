@@ -100,7 +100,7 @@ All the features included in the original dataset were used for tuning and fitti
 
 ## Results & Discussion
 
-### Understanding the relationship between features   
+### Understanding the relationship between features and target class 
 
 In order to understand which features play an important role in the decision making and prediction within the model, we will be analyzing the correlations between features and also how they correlate to the target class. So that we can get the most accurate correlations, we are looking at the transformed data and eliminating any sort of initial biases in the data. Note that correlation numbers range anywhere between -1 to 1, here we will be calculation correlation numbers between either two feature or a feature and a target class. Negative numbers indicate a negative correlation, which means that if we are looking the correlation number between two features, it could be that if one feature value increases the other feature value decreases (and vice versa), -1 is highest possible negative correlation. Similarly positive numbers indicate a positive correlation, which means that if we are looking the correlation number between two features, it could be that if one feature increases the other feature also increases (and vice versa), +1 is the highest possible positive correlation. Lastly, zero represent no correlation between the two variables. It is important to note that we don't exactly know which direction the correlation is pointing, however in our case we are more concerned with seeing which features would play a higher role in the decision making of the model. 
 

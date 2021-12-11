@@ -8,9 +8,11 @@ Lianna Hovhannisyan, Arushi Ahuja, Taiwo Owoseni, Karanpreet Kaur
 -   [Methods](#methods)
     -   [Data](#data)
     -   [Analysis](#analysis)
-    -   [Results & Discussion](#results--discussion)
-    -   [Overview of the method](#overview-of-the-method)
+-   [Results & Discussion](#results--discussion)
+    -   [Understanding the relationship between features and target
+        class](#understanding-the-relationship-between-features-and-target-class)
     -   [The evaluation of the method](#the-evaluation-of-the-method)
+    -   [Conclusion](#conclusion)
     -   [Discussion](#discussion)
 -   [References](#references)
 
@@ -21,45 +23,55 @@ Regression to predict if credit account holders will make a default
 payment next month. The model was trained on features that hold
 information about the client’s last 6 months bill and payment history,
 as well as several other characteristics such as: age, marital status,
-education, and gender. Overall, we are more interested in minimizing
-Type I error (predicting no default payment, when in reality the client
-made a default payment the following month), as opposed to Type II error
-(predicting default payment, when in reality no default payment was made
-by the client), we are using *f*1 as our primary scoring metric. Our
-model performed fairly well on test data set with the *f*1 score being
-0.528. Our recall and precision rate are moderately high, being 0.587,
-0.48 respectively. We would also report average_precision_score (AP) as
-it summarizes a precision-recall curve as the weighted mean of
-precisions achieved at each threshold, with the increase in recall from
-the previous threshold used as the weight and that would tell us that
-the overall model performance on imbalance dataset. The given scores are
-consistent with the train data set scores, thus we can say that the
-model is generalizable on unseen data. However, the scores are not high,
-and our model is error prompt. The model can correctly classify default
-payments roughly half of the time. The value of incorrectly identifying
-default or no default can cause a lot of money and reputation to the
-company, thus we recommend continuing study to improve this prediction
-model before it is put into production in the credit companies. Some of
-the improvement research topics can be feature engineering, bigger
-dataset collected from other countries (China, Canada, Japan).
+education, and gender. We consider the positive class to be default
+(client made a default payment). Overall, we are more interested in
+minimizing Type I error (predicting no default payment, when in reality
+the client made a default payment the following month), as opposed to
+Type II error (predicting default payment, when in reality no default
+payment was made by the client). However, given the fact that for
+creditors it is at upmost importance to have as minimal error prompt
+model as possible, we will use *f*1 as our primary scoring metric. *f*1
+score is the harmonic mean of recall (shows how many among all positive
+examples are correctly identified) and precision (shows how many among
+the positive examples are actually positive) score providing a good idea
+about both scores.
+
+Our model’s test *f*1 score is 0.528 with recall and precision rate
+being 0.587, 0.48 respectively. We also report average_precision_score
+(AP) as it summarizes a precision-recall curve: the weighted mean of
+precision achieved at each threshold, with the increase in recall from
+the previous threshold used as the weight. This score tells us the
+overall model performance on imbalance dataset. Overall, we conclude
+that the model can correctly classify default payments roughly half of
+the time.
+
+The value of incorrectly identifying default or no default can cause a
+lot of money and reputation to the company, we recommend continuing
+study to improve this prediction model before it is put into production
+in the credit companies. Some of the improvement research topics can be
+feature engineering, bigger dataset collected from other countries
+(China, Canada, Japan).
 
 ## Introduction
 
-An account makes a default payment when the minimum payment is not made
-for a consecutive 6 months period. Predicting potential credit default
-accounts is challenging but at the same time crucial for credit card
-companies. The default can happen for various reasons: the loss of a
-job, change in the financial market, personal difficulties, inability to
-work, health issues, need to use the extra cash for other bills, etc.
-All of the examples described can be considered as “out-of-control” from
-the customers’ side. However, the default can also be intentional. An
-example of intentional default is when the client knows that they are no
-longer financially stable enough for credit, but continues to use credit
-until the bank intervenes (Islam, Eberle, and Ghafoor 2018). The
-existence of such loopholes makes it essential for creditors to detect
-default accounts as soon as possible. In general for creditors, the
-earlier they detect the potential default accounts, the lower their
-losses will be (Nor, Ismail, and Yap 2019).
+Default payment refers to a situation when a borrower is unable to make
+timely payments, misses payments, avoids/stops making payments on
+interest or principal owed. An account is considered a default when the
+minimum payment is not made for a consecutive 6 months period.
+Predicting potential credit default accounts is challenging but at the
+same time crucial for credit card companies. The default can happen for
+various reasons: the loss of a job, change in the financial market,
+personal difficulties, inability to work, health issues, need to use the
+extra cash for other bills, etc. All of the examples described can be
+considered as “out-of-control” from the customers’ side. However, the
+default can also be intentional. An example of intentional default is
+when the client knows that they are no longer financially stable enough
+for credit, but continues to use credit until the bank intervenes
+(Islam, Eberle, and Ghafoor 2018). The existence of such loopholes makes
+it essential for creditors to detect default accounts as soon as
+possible. In general for creditors, the earlier they detect the
+potential default accounts, the lower their losses will be (Nor, Ismail,
+and Yap 2019).
 
 Here we ask if we can use machine-learning algorithms to predict whether
 a customer will do a default payment next month or not. The detection of
@@ -92,18 +104,38 @@ of next month column: labeled 1 (client will make a default) and 0
 
 ### Analysis
 
-The Logistic Regression algorithm is one of the most popular ways to fit
-models for categorical data, especially for binary response data in data
-modeling. That is why it was used to build a classification model for
-the default credit card dataset to predict whether the client will make
-a default payment in the next month (can be found in the “default
-payment next month” column with binary label). All the features included
-in the original dataset were used for tuning and fitting the model. The
-hyperparameter *C*, *c**l**a**s**s*\_*w**e**i**g**h**t* were chosen
-using 10 cross-validations with *f*1 score as primary scoring metric
-(recall and precision also considered). The Python programming language
-(Van Rossum and Drake 2009) and the following Python packages were used
-for the model analysis: docopt (Keleshev 2014), sklearn (Buitinck et al.
+As mentioned previously, our data set consists of 30000 observations,
+which we consider as the large enough sample for using Logistic
+Regression as the primary method. In addition, the features, that are
+being used to train the model on, are relevant to the target class, thus
+Logistic Regression will give us the results that are reliable, and easy
+to interpret to stakeholders. Moreover, Logistic Regression algorithm is
+one of the most popular ways to fit models for categorical data,
+especially for binary response data in data modeling.
+
+Therefore, we choose to conduct analysis and build a classification
+model for the default credit card dataset using Logistic Regression. The
+question in hand is to predict whether the client will make a default
+payment in the next month (can be found in the “default payment next
+month” column with binary label).
+
+Before starting the tuning, we splited our data set into train and test
+sets. 20% of the observations will be included in the test data and 80%
+in the train data set. The split will ensure the needed balance for
+having enough data for the fitting and cross validation set, as well as
+large enough test data for the final affirmation of the model: more
+precisely, the train set will have 24000 observations, and test set
+6000. To have generalizable results, cross validation was carried out on
+the train set with 10 folds. The best hyperparameters (C and
+class_weight) were chosen by randomized search.
+
+All the features included in the original dataset were used for tuning
+and fitting the model. The hyperparameter *C*,
+*c**l**a**s**s*\_*w**e**i**g**h**t* were chosen using 10
+cross-validations with *f*1 score as primary scoring metric (recall and
+average precision also considered). The Python programming language (Van
+Rossum and Drake 2009) and the following Python packages were used for
+the model analysis: docopt (Keleshev 2014), sklearn (Buitinck et al.
 2013), altair (VanderPlas et al. 2018), pandas (McKinney et al. 2010),
 numpy (Harris et al. 2020), os (Van Rossum and Drake 2009), requests
 (Chandra and Varanasi 2015), pickle (Van Rossum 2020), matplot (Hunter
@@ -113,11 +145,13 @@ packages: knitr (Xie 2014), tidyverse (Wickham 2017). The code used to
 perform the analysis and create the report can be found
 [here](https://github.com/UBC-MDS/credit_default_prediction).
 
-### Results & Discussion
+## Results & Discussion
+
+### Understanding the relationship between features and target class
 
 In order to understand which features play an important role in the
 decision making and prediction within the model, we will be analyzing
-the correlations between features an also how they correlate to the
+the correlations between features and also how they correlate to the
 target class. So that we can get the most accurate correlations, we are
 looking at the transformed data and eliminating any sort of initial
 biases in the data. Note that correlation numbers range anywhere between
@@ -159,25 +193,6 @@ observations:
 Figure 1. Correlation heatmap with features and target class
 
 </center>
-
-### Overview of the method
-
-As mentioned previously, our data set consists of 30000 observations,
-which we consider as the large enough sample for using Logistic
-Regression as the primary method. In addition, the features, that are
-being used to train the model on, are relevant to the target class, thus
-Logistic Regression we will give us the results that are reliable, and
-easy to interpret to stakeholders.
-
-Before starting the tuning, we splited our data set into train and test
-sets. 20% of the observations will be included in the test data and 80%
-in the train data set. The split will ensure the needed balance for
-having enough data for the fitting and cross validation set, as well as
-large enough test data for the final affirmation of the model: more
-precisely, the train set will have 24000 observations, and test set
-6000. To have generalizable results, cross validation was carried out on
-the train set with 10 folds. The best hyperparameters (C and
-class_weight) were chosen by randomized search.
 
 ### The evaluation of the method
 
@@ -265,6 +280,8 @@ Figure 4. Confusion matrix of tuned Logistic Regression model with
 hyperparameters
 
 </center>
+
+### Conclusion
 
 To conclude, even though the scores are not very high, we believe our
 model is generalizable for the unseen data. However, given the

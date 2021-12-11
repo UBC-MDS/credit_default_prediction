@@ -18,13 +18,31 @@ In this project, we built a classification model using Logistic Regression to pr
 The data set used in the project is created by Yeh, I. C., and Lien, C. H [@Yeh2009TheCO], and made publicly available for download in UCI Machine Learning Repository [@misc_default_of_credit_card_clients_350]. The data can be found [here](<https://archive-beta.ics.uci.edu/ml/datasets/default+of+credit+card+clients>), specifically [this file](<https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls>). The dataset is based on Taiwan's credit card client default cases from April to September. It has 30000 examples, and each example represents particular client's information. The dataset has 24 observations with respective values such as gender, age, marital status, last 6 months bills, last 6 months payments, etc, including the final default payment of next month column: labeled 1 (client will make a default) and 0 (client will not make a default).
 
 ## Report
-The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/credit_default_prediction_report.html).
+The final report can be found [here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/credit_default_prediction/blob/main/doc/report.html).
 
 The link to the Milestone 3 release can be found [here](https://github.com/UBC-MDS/credit_default_prediction/releases/tag/0.1.1). 
 
 ## Usage
 
 -- To replicate the analysis, please clone this GitHub repository. 
+
+There are two suggested ways to run this analysis:
+
+### Method 1. Using Docker
+
+To replicate the analysis, install [Docker](https://www.docker.com/get-started). Then run the following command at the command line/terminal from the root directory of this project:
+
+```
+docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction test1 make -C /home/rstudio/credit_default_prediction all
+```
+
+To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/terminal from the root directory of this project:
+
+```
+docker run --rm -v /$(pwd):/home/rstudio/credit_default_prediction test1 make -C /home/rstudio/credit_default_prediction clean
+```
+
+### Without using Docker
 
 -- To set up the necessary packages for running the project, download the environment file from [here](https://github.com/UBC-MDS/credit_default_prediction/blob/main/environment.yaml): hit “Raw” and then Ctrl/Cmnd + S to save it, or copy paste the content. 
 Then create a Python virtual environment by using conda with the environment file you just downloaded:
@@ -48,7 +66,7 @@ from this created environment in your `.Rprofile` file:
     RStudio. Add this to your .Rprofile file replacing the path set before.:
     `Sys.setenv(RETICULATE_PYTHON = "path_to_miniconda's_python for credit_default_env")`
 
--   In Windows, you need `\\` instead of a   to separate the directories,
+-   In Windows, you need `\\` instead of a ` ` to separate the directories,
     for example your path should be like:
     `C:\\Users\\hp\\miniconda3\\envs\\credit_default_env\\python.exe`
     
@@ -67,6 +85,12 @@ up the instructions below.
 To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/terminal from the root directory of this project:
 
 ```make clean```
+
+## Makefile's dependency graph
+
+```{r pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+knitr::include_graphics("Makefile.png")
+```
 
 ## Dependencies
 
